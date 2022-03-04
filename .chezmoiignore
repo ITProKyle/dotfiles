@@ -1,0 +1,16 @@
+.editorconfig
+.github/
+.gitignore
+.markdownlint.yml
+.pre-commit-config.yaml
+.venv/
+.vscode/
+LICENSE
+Makefile
+README.md
+node_modules/
+package-lock.json
+package.json
+poetry.lock
+poetry.toml
+pyproject.toml
