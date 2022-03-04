@@ -1,0 +1,36 @@
+{
+    "ignorePaths": [
+        "**/*.css",
+        "**/*.js",
+        "**/*.pyc",
+        "**/.venv/**",
+        "**/__pycache__/**",
+        "**/node_modules/**",
+        "**/package-lock.json",
+        "**/package.json",
+        "**/poetry.lock",
+        "**/tsconfig.json",
+        ".vscode/dictionaries/*.txt",
+        "typings/**"
+    ],
+    "language": "en",
+    "languageSettings": [
+        {
+            "allowCompoundWords": true,
+            "dictionaries": [
+                "python"
+            ],
+            "languageId": "toml"
+        }
+    ],
+    "maxNumberOfProblems": 100,
+    "version": "0.2",
+    "words": [
+        "autofix",
+        "dotfiles",
+        "fgrep",
+        "frontmatter",
+        "mdformat",
+        "yamlfmt"
+    ]
+}
