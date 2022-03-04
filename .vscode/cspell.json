@@ -31,6 +31,9 @@
         "fgrep",
         "frontmatter",
         "mdformat",
+        "nvmrc",
+        "readline",
+        "shellcheck",
         "yamlfmt"
     ]
 }
