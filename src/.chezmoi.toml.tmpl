@@ -1,0 +1,15 @@
+[data]
+{{- $workstationUse := "" -}}
+{{- if hasKey . "workstationUse" -}}
+{{-   $workstationUse = .workstationUse -}}
+{{- else -}}
+{{-   $workstationUse = promptString "What is this workstation used for (personal|work)" "personal" -}}
+{{- end -}}
+workstationUse = {{ $workstationUse | quote }}  # personal or work
+
+[diff]
+pager = "diff-so-fancy"
+
+[edit]
+command = "code"
+args = ["--wait"]
