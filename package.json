@@ -1,7 +1,7 @@
 {
   "description": "Version management for npm tools.",
   "devDependencies": {
-    "cspell": "^6.3.0"
+    "cspell": "^6.6.0"
   },
   "name": "dotfiles",
   "version": "0.0.0"
