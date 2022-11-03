@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 # https://github.com/direnv/direnv/wiki/Find-Up-with-Alternates
-find_up_() {
+function find_up_ {
   (
     while true; do
       for v in "${@}"; do
@@ -20,8 +20,9 @@ find_up_() {
   )
 }
 
+
 # https://github.com/direnv/direnv/wiki/Find-Up-with-Alternates
-read_version_file() {
+function read_version_file {
   local file
   file="$(find_up_ "${@}")"
 
@@ -31,8 +32,21 @@ read_version_file() {
   ruby -e "puts ARGF.readline" 2> /dev/null "${file}"  # cspell:ignore ARGF
 }
 
+
+# Usage: source_secrets_if_exists
+#
+# Loads ".secrets", but only if it exists.
+#
+function source_secrets_if_exists {
+  watch_file "./.secrets"
+  set -a
+  if [[ -f "./.secrets" ]]; then source_env "./.secrets"; fi
+  set +a
+}
+
+
 # https://github.com/direnv/direnv/wiki/Node
-use_nvm() {
+function use_nvm {
   local version
   version="${1}"
 
