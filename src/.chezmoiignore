@@ -1,0 +1,20 @@
+# macOS only files
+{{ if ne .chezmoi.os "darwin" }}
+.zshrc.d/000-openssl.sh
+.zshrc.d/000-tcl-tk.sh
+.zshrc.d/010-iterm2.sh
+{{ end }}
+
+# Linux only files
+{{ if ne .chezmoi.os "linux" }}
+{{ end }}
+
+# Linux & macOS files
+{{ if (and (ne .chezmoi.os "darwin") (ne .chezmoi.os "linux")) }}
+.zshrc.d/001-python.sh
+.zshrc.d/010-autosuggestions.sh
+{{ end }}
+
+# Windows only files
+{{ if ne .chezmoi.os "windows" }}
+{{ end }}

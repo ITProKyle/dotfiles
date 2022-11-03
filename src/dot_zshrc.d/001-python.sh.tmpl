@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+#
+# Exports for Python and Python utilities.
+
+{{ if eq .chezmoi.os "darwin" -}}
+TCL_TK="${HOMEBREW_PREFIX}/opt/tcl-tk"
+{{- end }}
+
+# pipenv settings
+export PIPENV_VENV_IN_PROJECT=1  # pipenv venv in the project dir (.venv/)
+export PIPENV_HIDE_EMOJIS=1  # hide emojis in pipenv output
+
+# pyenv setup
+if command -v pyenv &> /dev/null; then
+  eval "$(pyenv init -)"
+fi
+
+# pyenv build options
+{{ if eq .chezmoi.os "darwin" -}}
+export PYTHON_CONFIGURE_OPTS="--enable-framework"
+export PYTHON_CONFIGURE_OPTS="${PYTHON_CONFIGURE_OPTS} --with-tcltk-includes='-I${TCL_TK}/include'"
+export PYTHON_CONFIGURE_OPTS="${PYTHON_CONFIGURE_OPTS} --with-tcltk-libs='-L${TCL_TK}/lib -ltcl8.6 -ltk8.6'"
+{{- else if eq .chezmoi.os "linux" -}}
+PYTHON_CONFIGURE_OPTS="--enable-shared"
+{{- end }}
