@@ -36,6 +36,7 @@
         "chflags",
         "clmv",
         "CPPFLAGS",
+        "deduped",
         "desktopservices",
         "direnv",
         "diskimages",

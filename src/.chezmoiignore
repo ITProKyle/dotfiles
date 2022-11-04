@@ -14,8 +14,7 @@
 # Linux & macOS files
 {{ if (and (ne .chezmoi.os "darwin") (ne .chezmoi.os "linux")) }}
 .zprofile
-.zshrc.d/001-python.sh
-.zshrc.d/010-autosuggestions.sh
+.zshrc.d/**
 {{ end }}
 
 # Windows only files
