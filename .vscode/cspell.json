@@ -48,6 +48,7 @@
         "pyenv",
         "readline",
         "shellcheck",
+        "shellenv",
         "substr",
         "tcltk",
         "venv",
