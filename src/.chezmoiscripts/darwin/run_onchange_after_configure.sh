@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # https://github.com/mathiasbynens/dotfiles/blob/main/.macos
 
-set -eufo pipefail
+set -eufo pipefail  # cspell:ignore eufo
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
@@ -89,7 +89,8 @@ defaults write com.apple.finder FXInfoPanesExpanded -dict \
 /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
 
 # Show the ~/Library folder
-chflags nohidden ~/Library && xattr -d com.apple.FinderInfo ~/Library
+chflags nohidden ~/Library
+xattr -d com.apple.FinderInfo ~/Library &>/dev/null || true
 
 # Show the /Volumes folder
 # sudo chflags nohidden /Volumes
