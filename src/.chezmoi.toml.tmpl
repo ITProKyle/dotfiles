@@ -1,21 +1,62 @@
-{{- $workstationUse := "" -}}
-{{- if hasKey . "workstationUse" -}}
-{{-   $workstationUse = .workstationUse -}}
-{{- else -}}
-{{-   $workstationUse = promptString "What is this workstation used for (personal|work)" "personal" -}}
+{{/* boolean feature tags */}}
+{{- $docker := false -}}{{/* true if this machine should have Docker installed */}}
+{{- $ephemeral := false -}}{{/* true if this machine is ephemeral, e.g. a cloud or VM instance */}}
+{{- $headless := false -}}{{/* true if this machine does not have a screen and keyboard */}}
+{{- $workstationUse := "personal" -}}
+{{- "" -}}
+
+{{- $osID := .chezmoi.os -}}
+{{- if (and (eq .chezmoi.os "linux") (hasKey .chezmoi.osRelease "id")) -}}
+{{-   $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
 {{- end -}}
+
+{{/* detect GitHub codespaces, vscode remote containers, Docker containers, Multipass VMs, and Vagrant boxes */}}
+{{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS_IPC") (eq .chezmoi.username "root" "ubuntu" "vagrant" "vscode") -}}
+{{-   $ephemeral = true -}}
+{{-   $headless = true -}}
+{{- end -}}
+
+{{/* work around unreliable hostname on darwin */}}
+{{- $hostname := .chezmoi.hostname -}}
+{{- if eq .chezmoi.os "darwin" -}}
+{{-   $computerName := output "scutil" "--get" "ComputerName" | trim -}}
+{{-   $hostname = $computerName -}}
+{{- end -}}
+
+{{- if not $ephemeral -}}
+{{-   if eq $hostname "Mac-M7F25VXX" -}}{{/* work laptop */}}
+{{-     $docker = true -}}
+{{-     $workstationUse = "work" -}}
+{{-   else if stdinIsATTY -}}
+{{-     $ephemeral = promptBoolOnce . "ephemeral" "Is this machine ephemeral (container, VM, etc)? [y|n]" "y" -}}
+{{-     $headless = promptBoolOnce . "headless" "Is this machine headless (monitor/keyboard)? [y|n]" "n" -}}
+{{-     $workstationUse = promptStringOnce . "workstationUse" "What is this workstation used for (personal|work)" "personal" -}}
+{{-     if not $ephemeral -}}
+{{-       $docker = promptBoolOnce . "Should this machine have Docker installed? [y|n]" "docker" "y" -}}
+{{-     end -}}
+{{-   else -}}
+{{-     $ephemeral = true -}}
+{{-     $headless = true -}}
+{{-   end -}}
+{{- end -}}
+
 [data]
-workstationUse = {{ $workstationUse | quote }}  # personal or work
+  docker = {{ $docker }}
+  ephemeral = {{ $ephemeral }}
+  workstationUse = {{ $workstationUse | quote }}  # personal or work
+  headless = {{ $headless }}
+  hostname = {{ $hostname | quote }}
+  osID = {{ $osID | quote }}
 
 [data.personal]
-email = "kyle@finley.sh"
+  email = "kyle@finley.sh"
 
 [data.work]
-email = "kyle.finley@wnco.com"
+  email = "kyle.finley@wnco.com"
 
 [diff]
-pager = "diff-so-fancy"
+  pager = "diff-so-fancy"
 
 [edit]
-command = "code"
-args = ["--wait"]
+  command = "code"
+  args = ["--wait"]

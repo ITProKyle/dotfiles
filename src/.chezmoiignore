@@ -1,5 +1,6 @@
 # macOS only files
 {{ if ne .chezmoi.os "darwin" }}
+.chezmoiscripts/darwin/**
 .zshrc.d/000-openssl.sh
 .zshrc.d/000-tcl-tk.sh
 .zshrc.d/010-iterm2.sh
@@ -7,6 +8,7 @@
 
 # Linux only files
 {{ if ne .chezmoi.os "linux" }}
+.chezmoiscripts/linux/**
 {{ end }}
 
 # Linux & macOS files
