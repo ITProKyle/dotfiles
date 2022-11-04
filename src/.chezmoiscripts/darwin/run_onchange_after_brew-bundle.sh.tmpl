@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -eufo pipefail  # cspell:ignore eufo
+
+# .Brewfile hash: {{ include "dot_Brewfile.tmpl" | sha256sum }}
+echo "Installing tools and apps from .Brewfile..."
+brew bundle --global

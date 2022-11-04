@@ -46,13 +46,6 @@ defaults write com.apple.finder _FXSortFoldersFirst -bool true  # keep folders o
 ###############################################################################
 # General UI/UX                                                               #
 ###############################################################################
-
-# Set computer name (as done via System Preferences → Sharing)
-#sudo scutil --set ComputerName "0x6D746873"
-#sudo scutil --set HostName "0x6D746873"
-#sudo scutil --set LocalHostName "0x6D746873"
-#sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "0x6D746873"
-
 defaults write NSGlobalDomain AppleAccentColor -int 5
 defaults write NSGlobalDomain AppleHighlightColor -string "0.968627 0.831373 1.000000"  # set highlight color to purple
 defaults write NSGlobalDomain AppleInterfaceStyle Dark
@@ -124,7 +117,6 @@ defaults write NSGlobalDomain KeyRepeat -int 2
 ###############################################################################
 # Kill affected applications                                                  #
 ###############################################################################
-
 for app in \
 	"Dock" \
 	"Finder" \

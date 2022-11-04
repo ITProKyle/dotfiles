@@ -1,5 +1,6 @@
 # macOS only files
 {{ if ne .chezmoi.os "darwin" }}
+.Brewfile
 .chezmoiscripts/darwin/**
 .zshrc.d/000-openssl.sh
 .zshrc.d/000-tcl-tk.sh
