@@ -1,17 +1,19 @@
 {
+    "allowCompoundWords": true,
+    "dictionaries": [
+        "aws",
+        "filetypes",
+        "python"
+    ],
     "ignorePaths": [
         "**/*.css",
         "**/*.js",
-        "**/*.pyc",
-        "**/.venv/**",
+        "**/.git/",
         "**/__pycache__/**",
-        "**/node_modules/**",
         "**/package-lock.json",
         "**/package.json",
         "**/poetry.lock",
-        "**/tsconfig.json",
-        ".vscode/dictionaries/*.txt",
-        "typings/**"
+        "**/src/dot_Brewfile.tmpl"
     ],
     "language": "en",
     "languageSettings": [
@@ -21,6 +23,12 @@
                 "python"
             ],
             "languageId": "toml"
+        },
+        {
+            "dictionaries": [
+                "bash"
+            ],
+            "languageId": "*"
         }
     ],
     "maxNumberOfProblems": 100,
@@ -33,6 +41,7 @@
         "Bitpool",
         "catthehacker",
         "chezmoi",
+        "chezmoiscripts",
         "chflags",
         "clmv",
         "CPPFLAGS",
@@ -48,6 +57,7 @@
         "frontmatter",
         "glyv",
         "icnv",
+        "ifeq",
         "iterm",
         "killall",
         "largesize",
@@ -55,6 +65,7 @@
         "LDFLAGS",
         "libexec",
         "ltcl",
+        "maint",
         "mdformat",
         "mineffect",
         "Nlsv",
@@ -70,6 +81,7 @@
         "shellenv",
         "substr",
         "tcltk",
+        "tmpl",
         "Trackpad",
         "trackpads",
         "venv",
