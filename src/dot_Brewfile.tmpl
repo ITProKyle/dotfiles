@@ -1,3 +1,4 @@
+tap "cloudquery/tap"
 tap "gabrie30/utils"
 tap "github/gh"
 tap "homebrew/bundle"
@@ -5,97 +6,232 @@ tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 tap "homebrew/core"
 tap "lindell/multi-gitter"
-brew "webp"
-brew "apr"
-brew "readline"
-brew "sqlite"
+# General-purpose data compression with high compression ratio
 brew "xz"
+# Image format providing lossless and lossy compression for web images
+brew "webp"
+# New file format for still image compression
+brew "jpeg-xl"
+# Apache Portable Runtime library
+brew "apr"
+# Companion library to apr, the Apache Portable Runtime library
+brew "apr-util"
+# Tool for generating GNU Standards-compliant Makefiles
+brew "automake"
+# Library for command-line editing
+brew "readline"
+# Command-line interface for SQLite
+brew "sqlite"
+# Official Amazon AWS command-line interface
 brew "awscli"
+# Programmable completion for Bash 3.2
 brew "bash-completion"
+# Clone of cat(1) with syntax highlighting and Git integration
+brew "bat"
+# Fish completion for brew-cask
 brew "brew-cask-completion"
+# New way to see and navigate directory trees
+brew "broot"
+# Concurrent, cache-efficient, and Dockerfile-agnostic builder toolkit
+brew "buildkit"
+# Manage compile and link flags for libraries
 brew "pkg-config"
+# X.Org: Core X11 protocol client library
+brew "libx11"
+# Interpreted, interactive, object-oriented programming language
 brew "python@3.9"
+# Object-file caching compiler wrapper
 brew "ccache"
+# Create and view interactive cheat sheets for *nix commands
+brew "cheat"
+# Manage your dotfiles across multiple diverse machines, securely
 brew "chezmoi"
+# Color-highlighted diff(1) output
 brew "colordiff"
+# GNU File, Shell, and Text utilities
 brew "coreutils"
+# International domain name library (IDNA2008, Punycode and TR46)
 brew "libidn2"
+# HTTP/2 C Library
 brew "libnghttp2"
+# Get a file from an HTTP, HTTPS or FTP server
 brew "curl"
+# Display user-friendly message boxes from shell scripts
 brew "dialog"
+# Good-lookin' diffs with diff-highlight and more
 brew "diff-so-fancy"
+# Load/unload environment variables based on $PWD
 brew "direnv"
+# More intuitive version of du in rust
+brew "dust"
+# Select default apps for documents and URL schemes on macOS
+brew "duti"
+# Toolkit for image loading and pixel buffer manipulation
 brew "gdk-pixbuf"
+# GitHub command-line tool
 brew "gh"
+# Distributed revision control system
 brew "git"
+# Small git utilities
+brew "git-extras"
+# GNU implementation of the famous stream editor
 brew "gnu-sed"
+# Validating, recursive, caching DNS resolver
 brew "unbound"
+# GNU Transport Layer Security (TLS) Library
 brew "gnutls"
+# Generate introspection data for GObject libraries
 brew "gobject-introspection"
+# Library for manipulating JPEG-2000 images
 brew "jasper"
+# C/C++ and Java libraries for Unicode and globalization
 brew "icu4c"
+# OpenType text shaping engine
 brew "harfbuzz"
+# Framework for layout and rendering of i18n text
 brew "pango"
+# Graph visualization software from AT&T and Bell Labs
 brew "graphviz"
+# GNU grep, egrep and fgrep
 brew "grep"
+# Smarter Dockerfile linter to validate best practices
 brew "hadolint"
+# Improved top (interactive process viewer)
 brew "htop"
+# Lightweight and flexible command-line JSON processor
 brew "jq"
+# Multi-platform support library with a focus on asynchronous I/O
 brew "libuv"
-brew "node"
-brew "ldns"
-brew "libssh"
-brew "libusb"
-brew "libxml2"
-brew "libxmlsec1"
+# YAML Parser
 brew "libyaml"
+# Platform built on V8 to build network applications
+brew "node"
+# Swiss-army knife of markup format conversion
+brew "pandoc"
+# Interactive environments for writing and running code
+brew "jupyterlab"
+# Handy way to save and run project-specific commands
+brew "just"
+# DNS library written in C
+brew "ldns"
+# CBOR protocol implementation for C and others
+brew "libcbor"
+# C library SSHv1/SSHv2 client and server protocols
+brew "libssh"
+# Library for USB device access
+brew "libusb"
+# GNOME XML library
+brew "libxml2"
+# XML security library
+brew "libxmlsec1"
+# Terminal file manager
+brew "llama"
+# Utility for directing compilation
 brew "make"
+# Mac App Store command-line interface
 brew "mas"
+# 'traceroute' and 'ping' in a single tool
 brew "mtr"
+# Open source relational database management system
 brew "mysql"
+# Open source relational database management system
 brew "mysql-client"
+# Port scanning utility for large networks
 brew "nmap"
+# Manage multiple Node.js versions
 brew "nvm"
+# Open client for Cisco AnyConnect VPN
 brew "openconnect"
+# OpenBSD freely-licensed SSH connectivity tools
 brew "openssh"
+# Cryptography and SSL/TLS Toolkit
 brew "openssl@3"
+# OCI Registry As Storage
 brew "oras"
+# 7-Zip (high compression file archiver) implementation
 brew "p7zip"
+# Tool for managing OCI containers and pods
 brew "podman"
+# Command-line toolbox for fancy output in the terminal
+brew "rich-cli"
+# Powerful, clean, object-oriented scripting language
 brew "ruby"
+# Safe, concurrent, practical language
 brew "rust"
+# Static analysis and lint tool, for (ba)sh scripts
 brew "shellcheck"
+# Generate Markdown files from inline source code documentation
 brew "sourcedocs"
+# Add a public key to a remote machine's authorized_keys file
 brew "ssh-copy-id"
+# Version control system designed to be a better CVS
 brew "subversion"
+# Generate scripting interfaces to C/C++ code
 brew "swig"
+# Tool Command Language
 brew "tcl-tk"
+# Traceroute implementation using TCP packets
 brew "tcptraceroute"
+# User interface to the TELNET protocol
 brew "telnet"
+# Send macOS User Notifications from the command-line
 brew "terminal-notifier"
+# Terraform version manager inspired by rbenv
 brew "tfenv"
+# Linter for Terraform files
 brew "tflint"
+# Terminal multiplexer
+brew "tmux"
+# Display directories as trees (with optional color/HTML output)
 brew "tree"
+# Internet file retriever
 brew "wget"
+# Personal information dashboard for your terminal
+brew "wtfutil"
+# Additional completion definitions for zsh
 brew "zsh-completions"
+# Fish shell like syntax highlighting for zsh
 brew "zsh-syntax-highlighting"
+# Easily monitor and ask questions about your infrastructure.
+brew "cloudquery/tap/cloudquery"
+# command line interface for the ec account registry
+brew "cpe/tools/account"
+# SWA AWS Credential Command Line Tool
+brew "cpe/tools/awssaml"
+# Quickly clone an entire org/users repositories into one directory
 brew "gabrie30/utils/ghorg"
-brew "lindell/multi-gitter/multi-gitter"
+# Update multiple repositories in bulk
+# Application launcher and productivity software
 cask "alfred"
+# Tool to flash OS images to SD cards & USB drives
 cask "balenaetcher"
+# Menu bar icon organizer
 cask "bartender"
+# Tool to remove unnecessary files and folders from disk
 cask "cleanmymac"
+# API documentation browser and code snippet manager
 cask "dash"
+# Voice and text chat software
 cask "discord"
+# App to build and share containerized applications and microservices
 cask "docker"
+# Free monospaced font with programming ligatures
 cask "font-fira-code"
+# Developer targeted fonts with a high number of glyphs
 cask "font-fira-code-nerd-font"
 cask "font-fira-mono"
 cask "font-fira-mono-for-powerline"
+# Developer targeted fonts with a high number of glyphs
 cask "font-fira-mono-nerd-font"
+# Git client focusing on productivity
 cask "gitkraken"
+# Tools to protect your files
 cask "gpg-suite-no-mail"
+# Display key code, unicode value and modifier keys state for any key combination
 cask "key-codes"
+# Enhancer/customiser for the all-in-one productivity workspace notion.so
 cask "notion-enhanced"
+# Browse, manage, inspect containers and images
 cask "podman-desktop"
+# Imaging utility to install operating systems to a microSD card
 cask "raspberry-pi-imager"

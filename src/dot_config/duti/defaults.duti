@@ -1,0 +1,60 @@
+# lines to be passed to duti to setup default apps for file types
+#
+# duti: https://github.com/moretension/duti/
+
+# Show UTI of an extension: `duti -e <.ext>` or `mdls -name kMDItemContentType -name kMDItemContentTypeTree -name kMDItemKind <file> `
+
+# available Roles:
+# all:    app handles all roles for the given UTI.
+# viewer: app handles reading and displaying documents
+# editor: app can manipulate and save the item. (implies viewer)
+# shell:  app can execute the item.
+# none    app cannot open the item, but provides an icon for the given UTI.
+
+# Application Bundle Identifier aka. bundle_id aka. app_id
+# get the bundle_id use of an Application: osascript -e 'id of app "Finder.app"'
+
+# list all installed apps:
+# mdfind kMDItemContentTypeTree=com.apple.application | while read line; do  mdls -name kMDItemCFBundleIdentifier -raw "$line"; echo; done
+
+# list all file types:
+# /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -dump | grep 'uti:' | awk '{ print $2 }' | sort | uniq | while read line; do echo "$line > "`echo "$line" | xargs duti -l`; done
+
+# list information for a specific file type:
+# duti -e js
+# duti -x js
+
+# Settings Format
+## bundle_id UTI/ext/url_scheme role
+
+# some system defaults being changed:
+# com.apple.keychainaccess public.x509-certificate all
+
+com.apple.Preview public.heic all
+com.microsoft.VSCode com.netscape.javascript-source all
+com.microsoft.VSCode net.daringfireball.markdown all
+com.microsoft.VSCode public.bash-script all
+com.microsoft.VSCode public.comma-separated-values-text all
+com.microsoft.VSCode public.data all
+com.microsoft.VSCode public.json all
+com.microsoft.VSCode public.lex-source all
+com.microsoft.VSCode public.log all
+com.microsoft.VSCode public.ndjson all
+com.microsoft.VSCode public.php-script all
+com.microsoft.VSCode public.plain-text all
+com.microsoft.VSCode public.python-script all
+com.microsoft.VSCode public.ruby-script all
+com.microsoft.VSCode public.ruby-script all
+com.microsoft.VSCode public.script all
+com.microsoft.VSCode public.shell-script all
+com.microsoft.VSCode public.swift-source all
+com.microsoft.VSCode public.text all
+com.microsoft.VSCode public.utf8-plain-text all
+com.microsoft.VSCode public.utf8-tab-separated-values-text all
+com.microsoft.VSCode public.x509-certificate all
+com.microsoft.VSCode public.x509-certificate all
+com.microsoft.VSCode public.x509-printable-encoded-archive all
+com.microsoft.VSCode public.xhtml all
+com.microsoft.VSCode public.xml all
+com.microsoft.VSCode public.yaml all
+com.microsoft.VSCode public.zsh-script all
