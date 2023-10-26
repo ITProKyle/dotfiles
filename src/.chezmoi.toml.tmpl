@@ -28,11 +28,11 @@
 {{-     $docker = true -}}
 {{-     $workstationUse = "work" -}}
 {{-   else if stdinIsATTY -}}
-{{-     $ephemeral = promptBoolOnce . "ephemeral" "Is this machine ephemeral (container, VM, etc)? [y|n]" "y" -}}
-{{-     $headless = promptBoolOnce . "headless" "Is this machine headless (monitor/keyboard)? [y|n]" "n" -}}
+{{-     $ephemeral = promptBoolOnce . "ephemeral" "Is this machine ephemeral (container, VM, etc)? [y|n]" true -}}
+{{-     $headless = promptBoolOnce . "headless" "Is this machine headless (monitor/keyboard)? [y|n]" false -}}
 {{-     $workstationUse = promptStringOnce . "workstationUse" "What is this workstation used for (personal|work)" "personal" -}}
 {{-     if not $ephemeral -}}
-{{-       $docker = promptBoolOnce . "Should this machine have Docker installed? [y|n]" "docker" "y" -}}
+{{-       $docker = promptBoolOnce . "docker" "Should this machine have Docker installed? [y|n]" true -}}
 {{-     end -}}
 {{-   else -}}
 {{-     $ephemeral = true -}}
@@ -48,11 +48,11 @@
   hostname = {{ $hostname | quote }}
   osID = {{ $osID | quote }}
 
-[data.personal]
-  email = "kyle@finley.sh"
+  [data.personal]
+    email = "kyle@finley.sh"
 
-[data.work]
-  email = "kyle.finley@wnco.com"
+  [data.work]
+    email = "kyle.finley@wnco.com"
 
 [diff]
   pager = "diff-so-fancy"

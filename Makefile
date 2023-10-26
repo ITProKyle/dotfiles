@@ -16,8 +16,13 @@ help: ## show this message
 brewfile:  ## generate a Brewfile.local from the current system
 	@brew bundle dump --describe --force
 
+fix: run-pre-commit ## run all automatic fixes
+
 fix-md: ## automatically fix markdown format errors
 	@poetry run pre-commit run mdformat --all-files
+
+lint: ## run all linters
+	@echo "no linters configured for this project"
 
 run-pre-commit: ## run pre-commit for all files
 	@poetry run pre-commit run $(PRE_COMMIT_OPTS) \
@@ -30,10 +35,7 @@ setup-npm: ## install node dependencies with npm
 	@npm ci
 
 setup-poetry: ## setup python virtual environment
-	@if [[ -d .venv ]]; then \
-		poetry run python -m pip --version >/dev/null 2>&1 || rm -rf ./.venv/* ./.venv/.*; \
-	fi
-	@poetry lock --check
+	@poetry check
 	@poetry install $(POETRY_OPTS) --sync
 
 setup-pre-commit: ## install pre-commit git hooks
@@ -50,3 +52,6 @@ spellcheck: ## run cspell
 		--no-progress \
 		--relative \
 		--show-context
+
+test: ## run all test
+	@echo "no tests configured for this project"

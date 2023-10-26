@@ -1,8 +1,9 @@
-minimum_pre_commit_version: 2.13.0
+default_language_version:
+  node: system
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: check-json
       - id: check-merge-conflict
@@ -27,7 +28,7 @@ repos:
         args: [--autofix, --indent, '2']
         files: |
           (?x)^(
-            package.json
+            (.*)?(cdk|package|tsconfig|tslint)\.json
           )$
       - id: trailing-whitespace
   - repo: https://github.com/ITProKyle/pre-commit-hook-yamlfmt
@@ -43,7 +44,7 @@ repos:
             \.readthedocs.yml
           )$
   - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.16
+    rev: 0.7.17
     hooks:
       - id: mdformat
         additional_dependencies:
@@ -51,6 +52,6 @@ repos:
           - mdformat-gfm
           - mdformat-toc
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.34.0
+    rev: v0.37.0
     hooks:
       - id: markdownlint
