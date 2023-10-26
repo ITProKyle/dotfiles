@@ -2,7 +2,7 @@
 {{- $docker := false -}}{{/* true if this machine should have Docker installed */}}
 {{- $ephemeral := false -}}{{/* true if this machine is ephemeral, e.g. a cloud or VM instance */}}
 {{- $headless := false -}}{{/* true if this machine does not have a screen and keyboard */}}
-{{- $workstationUse := "personal" -}}
+{{- $workstation_use := "personal" -}}
 {{- "" -}}
 
 {{- $osID := .chezmoi.os -}}
@@ -26,11 +26,11 @@
 {{- if not $ephemeral -}}
 {{-   if eq $hostname "Mac-M7F25VXX" -}}{{/* work laptop */}}
 {{-     $docker = true -}}
-{{-     $workstationUse = "work" -}}
+{{-     $workstation_use = "work" -}}
 {{-   else if stdinIsATTY -}}
 {{-     $ephemeral = promptBoolOnce . "ephemeral" "Is this machine ephemeral (container, VM, etc)? [y|n]" true -}}
 {{-     $headless = promptBoolOnce . "headless" "Is this machine headless (monitor/keyboard)? [y|n]" false -}}
-{{-     $workstationUse = promptStringOnce . "workstationUse" "What is this workstation used for (personal|work)" "personal" -}}
+{{-     $workstation_use = promptStringOnce . "workstation_use" "What is this workstation used for (personal|work)" "personal" -}}
 {{-     if not $ephemeral -}}
 {{-       $docker = promptBoolOnce . "docker" "Should this machine have Docker installed? [y|n]" true -}}
 {{-     end -}}
@@ -43,7 +43,7 @@
 [data]
   docker = {{ $docker }}
   ephemeral = {{ $ephemeral }}
-  workstationUse = {{ $workstationUse | quote }}  # personal or work
+  workstation_use = {{ $workstation_use | quote }}  # personal or work
   headless = {{ $headless }}
   hostname = {{ $hostname | quote }}
   osID = {{ $osID | quote }}

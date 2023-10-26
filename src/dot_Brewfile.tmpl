@@ -4,7 +4,7 @@ tap "github/gh"
 tap "homebrew/bundle"
 tap "homebrew/cask-fonts"
 tap "lindell/multi-gitter"
-{{ if eq .workstationUse "work" -}}
+{{ if eq .workstation_use "work" -}}
 tap "cpe/tools", "git@gitlab-ssh.apex-tools.prod0.prod.aws.swacorp.com:cpe/homebrew-cpe-tools.git"
 # command line interface for the ec account registry
 brew "cpe/tools/account"

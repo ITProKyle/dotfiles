@@ -4,6 +4,7 @@
 .chezmoiscripts/darwin/**
 .zshrc.d/000-openssl.sh
 .zshrc.d/000-tcl-tk.sh
+.zshrc.d/002-utils-macos.sh
 .zshrc.d/010-iterm2.sh
 {{ end }}
 

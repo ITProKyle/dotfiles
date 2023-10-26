@@ -62,3 +62,6 @@ function it2-tab-reset {
 if [ -n "$IT2_SESSION_COLOR" ]; then
   it2-tab-color "$IT2_SESSION_COLOR"
 fi
+
+# shellcheck disable=SC1091
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

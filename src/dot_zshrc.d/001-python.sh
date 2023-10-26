@@ -2,9 +2,9 @@
 #
 # Exports for Python and Python utilities.
 
-{{ if eq .chezmoi.os "darwin" -}}
-TCL_TK="${HOMEBREW_PREFIX}/opt/tcl-tk"
-{{- end }}
+if [[ "${__FINLEY_OS}" == "darwin" ]]; then
+  TCL_TK="${HOMEBREW_PREFIX}/opt/tcl-tk"
+fi
 
 export POETRY_HOME_LINUX="${HOME}/.local/share/pypoetry"
 export POETRY_HOME_MACOS="${HOME}/Library/Application Support/pypoetry"
@@ -21,20 +21,20 @@ fi
 # pyenv build options
 # https://github.com/pyenv/pyenv/blob/master/plugins/python-build/README.md#building-for-maximum-performance
 export PYTHON_CFLAGS='-march=native -mtune=native'
-{{ if eq .chezmoi.os "darwin" -}}
-export PYTHON_BUILD_SKIP_HOMEBREW="1"
-export PYTHON_CONFIGURE_OPTS="--enable-framework --enable-optimizations --with-lto"
-export PYTHON_CONFIGURE_OPTS="${PYTHON_CONFIGURE_OPTS} --with-tcltk-includes='-I${TCL_TK}/include'"
-export PYTHON_CONFIGURE_OPTS="${PYTHON_CONFIGURE_OPTS} --with-tcltk-libs='-L${TCL_TK}/lib -ltcl8.6 -ltk8.6'"
-{{- else if eq .chezmoi.os "linux" -}}
-PYTHON_CONFIGURE_OPTS="--enable-shared --enable-optimizations --with-lto"
-{{- end }}
+if [[ "${__FINLEY_OS}" == "darwin" ]]; then
+  export PYTHON_BUILD_SKIP_HOMEBREW="1"
+  export PYTHON_CONFIGURE_OPTS="--enable-framework --enable-optimizations --with-lto"
+  export PYTHON_CONFIGURE_OPTS="${PYTHON_CONFIGURE_OPTS} --with-tcltk-includes='-I${TCL_TK}/include'"
+  export PYTHON_CONFIGURE_OPTS="${PYTHON_CONFIGURE_OPTS} --with-tcltk-libs='-L${TCL_TK}/lib -ltcl8.6 -ltk8.6'"
+else
+  export PYTHON_CONFIGURE_OPTS="--enable-shared --enable-optimizations --with-lto"
+fi
 
-{{ if eq .chezmoi.os "darwin" -}}
-alias poetry-python='${POETRY_HOME_MACOS}/venv/bin/python'
-{{- else if eq .chezmoi.os "linux" -}}
-alias poetry-python='${POETRY_HOME_LINUX}/venv/bin/python'
-{{- end }}
+if [[ "${__FINLEY_OS}" == "darwin" ]]; then
+  alias poetry-python='${POETRY_HOME_MACOS}/venv/bin/python'
+elif [[ "${__FINLEY_OS}" == "linux" ]]; then
+  alias poetry-python='${POETRY_HOME_LINUX}/venv/bin/python'
+fi
 
 function backup-poetry {
   # Backup poetry configuration.
@@ -42,11 +42,12 @@ function backup-poetry {
 
   mkdir -p "${BACKUP_DIR}";
   for file_name in "auth.toml" "config.toml"; do
-    {{ if eq .chezmoi.os "darwin" -}}
-    file_path="${POETRY_HOME_MACOS}/${file_name}"
-    {{- else if eq .chezmoi.os "linux" -}}
-    file_path="${POETRY_HOME_LINUX}/${file_name}"
-    {{- end }}
+    if [[ "${__FINLEY_OS}" == "darwin" ]]; then
+      file_path="${POETRY_HOME_MACOS}/${file_name}"
+    else
+      file_path="${POETRY_HOME_LINUX}/${file_name}"
+    fi
+
     if [[ -f "${file_path}" ]]; then
       cp -i "${file_path}" "${BACKUP_DIR}/${file_name}";
       echo "backed up \"${file_name}\" to \"${BACKUP_DIR}\"";
@@ -66,13 +67,13 @@ function restore-poetry {
   for file_name in "auth.toml" "config.toml"; do
     file_path="${BACKUP_DIR}/${file_name}"
     if [[ -f "${file_path}" ]]; then
-      {{ if eq .chezmoi.os "darwin" -}}
-      cp -i "${file_path}" "${POETRY_HOME_MACOS}/${file_name}";
-      echo "restored \"${file_name}\" to \"${POETRY_HOME_MACOS}\"";
-      {{- else if eq .chezmoi.os "linux" -}}
-      cp -i "${file_path}" "${POETRY_HOME_LINUX}/${file_name}";
-      echo "restored \"${file_name}\" to \"${POETRY_HOME_LINUX}\"";
-      {{- end }}
+      if [[ "${__FINLEY_OS}" == "darwin" ]]; then
+        cp -i "${file_path}" "${POETRY_HOME_MACOS}/${file_name}";
+        echo "restored \"${file_name}\" to \"${POETRY_HOME_MACOS}\"";
+      else
+        cp -i "${file_path}" "${POETRY_HOME_LINUX}/${file_name}";
+        echo "restored \"${file_name}\" to \"${POETRY_HOME_LINUX}\"";
+      fi
     fi
   done
 }
