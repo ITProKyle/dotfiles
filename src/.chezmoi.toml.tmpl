@@ -1,4 +1,5 @@
 {{/* boolean feature tags */}}
+{{- $diff_pager := "" -}}{{/* default to no pager */}}
 {{- $docker := false -}}{{/* true if this machine should have Docker installed */}}
 {{- $ephemeral := false -}}{{/* true if this machine is ephemeral, e.g. a cloud or VM instance */}}
 {{- $headless := false -}}{{/* true if this machine does not have a screen and keyboard */}}
@@ -16,11 +17,12 @@
 {{-   $headless = true -}}
 {{- end -}}
 
-{{/* work around unreliable hostname on darwin */}}
+{{/* work around unreliable hostname on darwin & set macOS only things */}}
 {{- $hostname := .chezmoi.hostname -}}
 {{- if eq .chezmoi.os "darwin" -}}
 {{-   $computerName := output "scutil" "--get" "ComputerName" | trim -}}
 {{-   $hostname = $computerName -}}
+{{-   $diff_pager = "diff-so-fancy" -}}
 {{- end -}}
 
 {{- if not $ephemeral -}}
@@ -55,7 +57,7 @@
     email = "kyle.finley@wnco.com"
 
 [diff]
-  pager = "diff-so-fancy"
+  pager = {{ $diff_pager | quote }}
 
 [edit]
   command = "code"
