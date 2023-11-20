@@ -2,6 +2,7 @@
 {{ if ne .chezmoi.os "darwin" }}
 .Brewfile
 .chezmoiscripts/darwin/**
+.config/duti/**
 .zshrc.d/000-openssl.sh
 .zshrc.d/000-tcl-tk.sh
 .zshrc.d/002-utils-macos.sh

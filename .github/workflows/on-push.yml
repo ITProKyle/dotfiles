@@ -6,8 +6,8 @@ on: push
 
 
 env:
-  NODE_VERSION: '16'  # default node version
-  PYTHON_VERSION: 3.9  # default python version when not using a matrix
+  NODE_VERSION: '18'  # default node version
+  PYTHON_VERSION: 3.11  # default python version when not using a matrix
 
 
 jobs:
@@ -21,7 +21,7 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
       - run: poetry install -vv
       - uses: pre-commit/action@v3.0.0
-  spell-check:
+  spellcheck:
     # There is an official action published by cSpell.
     # v1.1.1 was tested but did not function as desired so we are using the CLI.
     runs-on: ubuntu-latest
