@@ -2,7 +2,7 @@
   "description": "Version management for npm tools.",
   "devDependencies": {
     "@itprokyle/cspell-dict": "^1.0.1",
-    "cspell": "^7.3.9"
+    "cspell": "^8.0.0"
   },
   "name": "dotfiles",
   "version": "0.0.0"
