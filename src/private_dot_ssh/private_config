@@ -1,0 +1,56 @@
+# GitHub, GitLab
+Host github.com gitlab.com
+	HostName github.com
+	User git
+	IdentityFile ~/.ssh/kyle.finley
+
+###################################
+# SWA Stuff                       #
+###################################
+Host gitlab-tools.swacorp.com gitlab-ssh.apex-tools.prod0.prod.aws.swacorp.com
+  HostName gitlab-ssh.apex-tools.prod0.prod.aws.swacorp.com
+  User git
+	IdentityFile ~/.ssh/kyle.finley
+
+Host stash1-tools.swacorp.com
+  HostName stash1-tools.swacorp.com
+  User git
+	IdentityFile ~/.ssh/kyle.finley
+
+###################################
+# Personal Stuff                  #
+###################################
+Host turingpi turingpi.local
+  HostName 10.0.1.20
+  RemoteForward 48969 127.0.0.1:48969
+  User root
+  IdentityFile ~/.ssh/kyle.finley
+
+Host turing?-node?
+  RemoteForward 48969 127.0.0.1:48969
+  User dietpi
+  IdentityFile ~/.ssh/kyle.finley
+
+Host turing0-node1
+  HostName 10.0.1.21
+
+Host homeassistant.local
+	HostName 10.0.0.35
+  RemoteForward 48969 127.0.0.1:48969
+	User kyle
+	IdentityFile ~/.ssh/kyle.finley
+
+# UDM-PRO
+Host 10.0.0.1
+  HostkeyAlgorithms +ssh-rsa
+	PubkeyAcceptedAlgorithms +ssh-rsa
+
+###################################
+# Keep the default configuration  #
+#  as the last item in this file. #
+###################################
+Host *
+  AddKeysToAgent yes
+  AddressFamily inet
+  IgnoreUnknown UseKeychain
+  UseKeychain yes
