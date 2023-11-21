@@ -1,59 +1,74 @@
-{{/* boolean feature tags */}}
+{{- /* boolean feature tags */ -}}
 {{- $diff_pager := "" -}}{{/* default to no pager */}}
 {{- $docker := false -}}{{/* true if this machine should have Docker installed */}}
-{{- $ephemeral := false -}}{{/* true if this machine is ephemeral, e.g. a cloud or VM instance */}}
-{{- $headless := false -}}{{/* true if this machine does not have a screen and keyboard */}}
+{{- $is_ephemeral := false -}}{{/* true if this machine is ephemeral, e.g. a cloud or VM instance */}}
+{{- $is_headless := false -}}{{/* true if this machine does not have a screen and keyboard */}}
+{{- $is_pi := false -}}{{- /* true if this machine is a raspberry pi */ -}}
 {{- $workstation_use := "personal" -}}
-{{- "" -}}
+{{- /* ========================= END OF DEFAULT VARIABLE ASSIGNMENT ========================= */ -}}
 
 {{- $osID := .chezmoi.os -}}
 {{- if (and (eq .chezmoi.os "linux") (hasKey .chezmoi.osRelease "id")) -}}
-{{-   $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
+  {{- $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
 {{- end -}}
 
-{{/* detect GitHub codespaces, vscode remote containers, Docker containers, Multipass VMs, and Vagrant boxes */}}
+{{- /* detect GitHub codespaces, vscode remote containers, Docker containers, Multipass VMs, and Vagrant boxes */ -}}
 {{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS_IPC") (eq .chezmoi.username "root" "ubuntu" "vagrant" "vscode") -}}
-{{-   $ephemeral = true -}}
-{{-   $headless = true -}}
+  {{- $is_ephemeral = true -}}
+  {{- $is_headless = true -}}
 {{- end -}}
 
-{{/* work around unreliable hostname on darwin & set macOS only things */}}
-{{- $hostname := .chezmoi.hostname -}}
-{{- if eq .chezmoi.os "darwin" -}}
-{{-   $computerName := output "scutil" "--get" "ComputerName" | trim -}}
-{{-   $hostname = $computerName -}}
-{{-   $diff_pager = "diff-so-fancy" -}}
+{{- /* macOS Things */ -}}
+  {{- /* work around unreliable hostname on darwin */ -}}
+  {{- $hostname := .chezmoi.hostname -}}
+  {{- if eq .chezmoi.os "darwin" -}}
+    {{- $computerName := output "scutil" "--get" "ComputerName" | trim -}}
+    {{- $hostname = $computerName -}}
+    {{- $diff_pager = "diff-so-fancy" -}}
+  {{- end -}}
+
+{{/* Linux Things */}}
+  {{- if glob "/proc/cpuinfo" -}}
+    {{- if regexMatch "^Model.*: [Rr]aspberry [Pp]i" (output "grep" "-m1" "Model" "/proc/cpuinfo" | trim) -}}
+      {{- $is_pi = true -}}
+    {{- end -}}
+  {{- end -}}
+
+{{- if not $is_ephemeral -}}
+  {{- if eq $hostname "Mac-M7F25VXX" -}}{{/* work laptop */}}
+    {{- $docker = true -}}
+    {{- $workstation_use = "work" -}}
+  {{- else if stdinIsATTY -}}
+    {{- $is_ephemeral = promptBoolOnce . "sys.is_ephemeral" "Is this machine ephemeral (container, VM, etc)? [y|n]" true -}}
+    {{- $is_headless = promptBoolOnce . "sys.is_headless" "Is this machine headless (monitor/keyboard)? [y|n]" false -}}
+    {{- $workstation_use = promptStringOnce . "workstation_use" "What is this workstation used for (personal|work)" "personal" -}}
+    {{- if not $is_ephemeral -}}
+      {{- $docker = promptBoolOnce . "software.docker" "Should this machine have Docker installed? [y|n]" true -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $is_ephemeral = true -}}
+    {{- $is_headless = true -}}
+  {{- end -}}
 {{- end -}}
 
-{{- if not $ephemeral -}}
-{{-   if eq $hostname "Mac-M7F25VXX" -}}{{/* work laptop */}}
-{{-     $docker = true -}}
-{{-     $workstation_use = "work" -}}
-{{-   else if stdinIsATTY -}}
-{{-     $ephemeral = promptBoolOnce . "ephemeral" "Is this machine ephemeral (container, VM, etc)? [y|n]" true -}}
-{{-     $headless = promptBoolOnce . "headless" "Is this machine headless (monitor/keyboard)? [y|n]" false -}}
-{{-     $workstation_use = promptStringOnce . "workstation_use" "What is this workstation used for (personal|work)" "personal" -}}
-{{-     if not $ephemeral -}}
-{{-       $docker = promptBoolOnce . "docker" "Should this machine have Docker installed? [y|n]" true -}}
-{{-     end -}}
-{{-   else -}}
-{{-     $ephemeral = true -}}
-{{-     $headless = true -}}
-{{-   end -}}
-{{- end -}}
-
-[data]
-  docker = {{ $docker }}
-  ephemeral = {{ $ephemeral }}
+{{- /* ================= END OF LOGIC - BELOW THIS LINE IS RENDERED OUTPUT ================== */ -}}
+[data]  # data made available to templates
   workstation_use = {{ $workstation_use | quote }}  # personal or work
-  headless = {{ $headless }}
-  hostname = {{ $hostname | quote }}
-  osID = {{ $osID | quote }}
 
-  [data.personal]
+  [data.personal]  # information about me
     email = "kyle@finley.sh"
 
-  [data.work]
+  [data.software]  # software config and toggles
+    docker = {{ $docker }}
+
+  [data.sys]  # system config, info, and toggles
+    hostname = {{ $hostname | quote }}
+    is_ephemeral = {{ $is_ephemeral }}
+    is_headless = {{ $is_headless }}
+    is_pi = {{ $is_pi }}
+    osID = {{ $osID | quote }}
+
+  [data.work]  # info about work
     email = "kyle.finley@wnco.com"
 
 [diff]
