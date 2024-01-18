@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ITProKyle/action-setup-python@v0.5.0
+      - uses: ITProKyle/action-setup-python@v0.5.1
         with:
           python-version: ${{ env.PYTHON_VERSION }}
       - run: poetry install -vv
