@@ -29,7 +29,7 @@
 
 {{/* Linux Things */}}
   {{- if glob "/proc/cpuinfo" -}}
-    {{- if regexMatch "^Model.*: [Rr]aspberry [Pp]i" (output "grep" "-m1" "Model" "/proc/cpuinfo" | trim) -}}
+    {{- if regexMatch "^Model.*: [Rr]aspberry [Pp]i" (output "cat" "/proc/cpuinfo" | trim) -}}
       {{- $is_pi = true -}}
     {{- end -}}
   {{- end -}}

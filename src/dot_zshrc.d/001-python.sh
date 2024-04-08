@@ -22,10 +22,9 @@ fi
 # https://github.com/pyenv/pyenv/blob/master/plugins/python-build/README.md#building-for-maximum-performance
 export PYTHON_CFLAGS='-march=native -mtune=native'
 if [[ "${__FINLEY_OS}" == "darwin" ]]; then
-  export PYTHON_BUILD_SKIP_HOMEBREW="1"
-  export PYTHON_CONFIGURE_OPTS="--enable-framework --enable-optimizations --with-lto"
   export PYTHON_CONFIGURE_OPTS="${PYTHON_CONFIGURE_OPTS} --with-tcltk-includes='-I${TCL_TK}/include'"
   export PYTHON_CONFIGURE_OPTS="${PYTHON_CONFIGURE_OPTS} --with-tcltk-libs='-L${TCL_TK}/lib -ltcl8.6 -ltk8.6'"
+  export PYTHON_CONFIGURE_OPTS="--enable-framework --enable-optimizations --with-lto"
 else
   export PYTHON_CONFIGURE_OPTS="--enable-shared --enable-optimizations --with-lto"
 fi
@@ -82,7 +81,7 @@ function py-install {
   # Faster 'pyenv install' using a faster profile task.
   # Uninstalls before trying to install.
 
-  # TODO add '--disable-test-modules' for >= 3.11 - https://docs.python.org/3/using/configure.html#install-options
+  # TODO add '--disable-test-modules' for >= 3.10 - https://docs.python.org/3/using/configure.html#install-options
 
   # shellcheck disable=SC2068
   pyenv uninstall $@;
