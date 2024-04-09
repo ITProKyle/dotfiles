@@ -1,6 +1,12 @@
 default_language_version:
   node: system
 
+exclude: |
+  (?x)^(
+    (.*/)?package-lock\.json|
+    (.*/)?poetry\.lock
+  )$
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
@@ -16,13 +22,14 @@ repos:
         args: [--unique]
         files: |
           (?x)^(
+            \.chezmoiignore|
             \.gitignore
           )$
       - id: pretty-format-json
         args: [--autofix, --indent, '4']
-        files: |
+        exclude: |
           (?x)^(
-            \.vscode/.*\.json
+            (.*)?(cdk|package|tsconfig|tslint)\.json
           )$
       - id: pretty-format-json
         args: [--autofix, --indent, '2']
@@ -31,6 +38,10 @@ repos:
             (.*)?(cdk|package|tsconfig|tslint)\.json
           )$
       - id: trailing-whitespace
+  - repo: https://github.com/pappasam/toml-sort
+    rev: v0.23.1
+    hooks:
+      - id: toml-sort-fix
   - repo: https://github.com/ITProKyle/pre-commit-hook-yamlfmt
     rev: v0.2.1
     hooks:

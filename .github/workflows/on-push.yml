@@ -6,8 +6,7 @@ on: push
 
 
 env:
-  NODE_VERSION: '18'  # default node version
-  PYTHON_VERSION: 3.11  # default python version when not using a matrix
+  NODE_VERSION: '20'  # default node version
 
 
 jobs:
@@ -17,8 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ITProKyle/action-setup-python@v0.7.0
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
       - run: poetry install -vv
       - uses: pre-commit/action@v3.0.1
   spellcheck:

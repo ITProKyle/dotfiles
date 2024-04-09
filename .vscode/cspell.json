@@ -1,38 +1,10 @@
 {
     "allowCompoundWords": true,
-    "dictionaries": [
-        "aws",
-        "filetypes",
-        "python"
-    ],
     "ignorePaths": [
-        "**/*.css",
-        "**/*.js",
-        "**/.git/",
-        "**/__pycache__/**",
-        "**/package-lock.json",
-        "**/package.json",
-        "**/poetry.lock",
         "**/src/dot_Brewfile.tmpl"
     ],
     "import": [
         "@itprokyle/cspell-dict/cspell-ext.json"
-    ],
-    "language": "en",
-    "languageSettings": [
-        {
-            "allowCompoundWords": true,
-            "dictionaries": [
-                "python"
-            ],
-            "languageId": "toml"
-        },
-        {
-            "dictionaries": [
-                "bash"
-            ],
-            "languageId": "*"
-        }
     ],
     "maxNumberOfProblems": 100,
     "version": "0.2",
@@ -47,7 +19,6 @@
         "clmv",
         "deduped",
         "duti",
-        "envrc",
         "glyv",
         "icnv",
         "iterm",
@@ -62,7 +33,6 @@
         "tcltk",
         "tmpl",
         "nohidden",
-        "shellenv",
         "xattr"
     ]
 }

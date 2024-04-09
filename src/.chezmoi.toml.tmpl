@@ -1,6 +1,7 @@
 {{- /* boolean feature tags */ -}}
 {{- $diff_pager := "" -}}{{/* default to no pager */}}
 {{- $docker := false -}}{{/* true if this machine should have Docker installed */}}
+{{- $is_codespace:= env "CODESPACES" | not | not -}}{{/* true if this machine is a GitHub Codespace */}}
 {{- $is_ephemeral := false -}}{{/* true if this machine is ephemeral, e.g. a cloud or VM instance */}}
 {{- $is_headless := false -}}{{/* true if this machine does not have a screen and keyboard */}}
 {{- $is_pi := false -}}{{- /* true if this machine is a raspberry pi */ -}}
@@ -52,28 +53,31 @@
 {{- end -}}
 
 {{- /* ================= END OF LOGIC - BELOW THIS LINE IS RENDERED OUTPUT ================== */ -}}
+sourceDir = {{ .chezmoi.sourceDir | quote }}
+
 [data]  # data made available to templates
-  workstation_use = {{ $workstation_use | quote }}  # personal or work
+workstation_use = {{ $workstation_use | quote }}  # personal or work
 
-  [data.personal]  # information about me
-    email = "kyle@finley.sh"
+[data.personal]  # information about me
+email = "kyle@finley.sh"
 
-  [data.software]  # software config and toggles
-    docker = {{ $docker }}
+[data.software]  # software config and toggles
+docker = {{ $docker }}
 
-  [data.sys]  # system config, info, and toggles
-    hostname = {{ $hostname | quote }}
-    is_ephemeral = {{ $is_ephemeral }}
-    is_headless = {{ $is_headless }}
-    is_pi = {{ $is_pi }}
-    osID = {{ $osID | quote }}
+[data.sys]  # system config, info, and toggles
+hostname = {{ $hostname | quote }}
+is_codespace = {{ $is_codespace }}
+is_ephemeral = {{ $is_ephemeral }}
+is_headless = {{ $is_headless }}
+is_pi = {{ $is_pi }}
+osID = {{ $osID | quote }}
 
-  [data.work]  # info about work
-    email = "kyle.finley@wnco.com"
+[data.work]  # info about work
+email = "kyle.finley@wnco.com"
 
 [diff]
-  pager = {{ $diff_pager | quote }}
+pager = {{ $diff_pager | quote }}
 
 [edit]
-  command = "code"
-  args = ["--wait"]
+command = "code"
+args = ["--wait"]

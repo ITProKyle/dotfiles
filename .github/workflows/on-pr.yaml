@@ -15,4 +15,4 @@ jobs:
         with:
           regex: ([a-z])+\/([a-zA-Z0-9\-\_])+
           allowed_prefixes: bugfix,chore,dependabot,docs,feat,feature,fix,hotfix,maint,maintain,maintenance,release
-          ignore: master,develop
+          ignore: master,pre-commit-ci-update-config

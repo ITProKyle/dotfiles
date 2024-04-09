@@ -1,8 +1,13 @@
 # GitHub, GitLab
-Host github.com gitlab.com
-	HostName github.com
-	User git
-	IdentityFile ~/.ssh/kyle.finley
+Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/kyle.finley
+
+Host gitlab.com
+  HostName gitlab.com
+  User git
+  IdentityFile ~/.ssh/kyle.finley
 
 ###################################
 # SWA Stuff                       #
@@ -10,17 +15,27 @@ Host github.com gitlab.com
 Host gitlab-tools.swacorp.com gitlab-ssh.apex-tools.prod0.prod.aws.swacorp.com
   HostName gitlab-ssh.apex-tools.prod0.prod.aws.swacorp.com
   User git
-	IdentityFile ~/.ssh/kyle.finley
+  IdentityFile ~/.ssh/kyle.finley
 
 Host stash1-tools.swacorp.com
   HostName stash1-tools.swacorp.com
   User git
-	IdentityFile ~/.ssh/kyle.finley
+  IdentityFile ~/.ssh/kyle.finley
 
 ###################################
 # Personal Stuff                  #
 ###################################
 # ssh-copy-id -i ~/.ssh/kyle.finley.pub <user>@<host>
+Host pihole
+  HostName 10.0.0.53
+  User kyle
+  IdentityFile ~/.ssh/kyle.finley
+
+Host truenas
+  HostName 10.0.0.130
+  User admin
+  IdentityFile ~/.ssh/kyle.finley
+
 Host turingpi turingpi.local
   HostName 10.0.1.20
   RemoteForward 48969 127.0.0.1:48969
@@ -40,15 +55,15 @@ Host turing0-node3
   HostName 10.0.1.23
 
 Host homeassistant.local
-	HostName 10.0.0.35
+  HostName 10.0.0.35
   RemoteForward 48969 127.0.0.1:48969
-	User kyle
-	IdentityFile ~/.ssh/kyle.finley
+  User kyle
+  IdentityFile ~/.ssh/kyle.finley
 
 # UDM-PRO
 Host 10.0.0.1
   HostkeyAlgorithms +ssh-rsa
-	PubkeyAcceptedAlgorithms +ssh-rsa
+  PubkeyAcceptedAlgorithms +ssh-rsa
 
 ###################################
 # Keep the default configuration  #
