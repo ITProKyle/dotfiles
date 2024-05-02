@@ -1,0 +1,15 @@
+--index-url https://pypi.org/simple
+
+# last updated: 2024-04-02
+
+click >= 8.1.7
+keyring  # yubikey-manager limits the version that can be installed
+pip >= 24.0
+pipx >=1.5.0
+pydantic >= 2.7.1
+pydantic-settings >= 2.2.1
+pytz >= 2024.1
+setuptools >= 69.5.1
+typing-extensions >= 4.11.0
+wheel >= 0.43.0
+yubikey-manager >= 5.4.0
