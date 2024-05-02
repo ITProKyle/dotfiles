@@ -1,2 +1,5 @@
+# https://github.com/koalaman/shellcheck/wiki/Ignore
+# SC2162: not valid for zsh
+disable=SC2162
 external-sources=true
 source-path=SCRIPTDIR

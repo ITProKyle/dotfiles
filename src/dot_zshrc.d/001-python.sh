@@ -29,6 +29,7 @@ else
   export PYTHON_CONFIGURE_OPTS="--enable-shared --enable-optimizations --with-lto"
 fi
 
+# TODO (kyle): change for pipx install as that is the new recommended install method
 if [[ "${__FINLEY_OS}" == "darwin" ]]; then
   alias poetry-python='${POETRY_HOME_MACOS}/venv/bin/python'
 elif [[ "${__FINLEY_OS}" == "linux" ]]; then
@@ -58,9 +59,14 @@ function restore-poetry {
   # Restore poetry configuration.
   local BACKUP_DIR="${HOME}/.config/pypoetry"
 
-  if [[ ! -d "${POETRY_HOME_MACOS}" ]]; then
-    echo "poetry not installed!";
-    exit 9;
+  if [[ "${__FINLEY_OS}" == "darwin" ]]; then
+    if [[ ! -d "${POETRY_HOME_MACOS}" ]]; then
+      mkdir -p "${POETRY_HOME_MACOS}";
+    fi
+  elif [[ "${__FINLEY_OS}" == "linux" ]]; then
+    if [[ ! -d "${POETRY_HOME_LINUX}" ]]; then
+      mkdir -p "${POETRY_HOME_LINUX}";
+    fi
   fi
 
   for file_name in "auth.toml" "config.toml"; do
@@ -90,13 +96,101 @@ function py-install {
 }
 
 function install-poetry {
-  curl -sSL https://install.python-poetry.org | python3 -;
+  local use_pipx
+  local use_script
+  echo "Install can use pipx or the https://install.python-poetry.org script.";
+  echo;
+
+  printf "Install using pipx? (Y/n) ";
+  read -n 1 use_pipx;
+  use_pipx="${use_pipx:-y}"
+  case $use_pipx in
+    Y|y)
+      pipx install poetry;
+      pipx inject poetry poetry-dynamic-versioning poetry-plugin-export;
+      ;;
+    *)
+      printf "Install using https://install.python-poetry.org script? (Y/n) ";
+      read -n 1 use_script;
+      use_script="${use_script:-y}"
+      case $use_script in
+        Y|y)
+          curl -sSL https://install.python-poetry.org | python3 -;
+          poetry self add poetry-plugin-export;
+          poetry self add poetry-dynamic-versioning;
+          ;;
+        *)
+          printf "\e[31;1m";
+          printf "[ERROR] unable to determine install method";
+          printf "\e[0m";
+          ;;
+      esac;
+  esac;
+
   restore-poetry;
 }
 
 function uninstall-poetry {
+  local use_pipx
+  local use_script
   backup-poetry;
-  curl -sSL https://install.python-poetry.org | python3 - --uninstall;
+  echo "Uninstall can be performed for pipx or the https://install.python-poetry.org script.";
+  echo;
+
+  printf "Uninstall using pipx? (Y/n) ";
+  read -n 1 use_pipx;
+  use_pipx="${use_pipx:-y}"
+  case $use_pipx in
+    Y|y)
+      pipx uninstall poetry;
+      ;;
+    *)
+      printf "Uninstall using https://install.python-poetry.org script? (Y/n) ";
+      read -n 1 use_script;
+      use_script="${use_script:-y}"
+      case $use_script in
+        Y|y)
+          curl -sSL https://install.python-poetry.org | python3 - --uninstall;
+          ;;
+        *)
+          printf "\e[31;1m";
+          printf "[ERROR] unable to determine uninstall method";
+          printf "\e[0m";
+          ;;
+      esac;
+  esac;
+}
+
+function update-poetry {
+  local use_pipx
+  local use_script
+  echo "Update can be performed for pipx or the https://install.python-poetry.org script.";
+  echo;
+
+  printf "Update using pipx? (Y/n) ";
+  read -n 1 use_pipx;
+  use_pipx="${use_pipx:-y}"
+  case $use_pipx in
+    Y|y)
+      pipx upgrade poetry --include-injected;
+      ;;
+    *)
+      printf "Update using https://install.python-poetry.org script? (Y/n) ";
+      read -n 1 use_script;
+      use_script="${use_script:-y}"
+      case $use_script in
+        Y|y)
+          poetry self update;
+          poetry self add poetry-plugin-export@latest;
+          poetry self add poetry-dynamic-versioning@latest;
+          ;;
+        *)
+          printf "\e[31;1m";
+          printf "[ERROR] unable to determine update method";
+          printf "\e[0m";
+          ;;
+      esac;
+  esac;
 }
 
 function reinstall-poetry { uninstall-poetry; install-poetry; }
