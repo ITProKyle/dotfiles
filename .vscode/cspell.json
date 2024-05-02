@@ -9,12 +9,8 @@
     "maxNumberOfProblems": 100,
     "version": "0.2",
     "words": [
-        "CFLAGS",
-        "CPPFLAGS",
-        "LDFLAGS",
         "Nlsv",
         "Nlsv",
-        "XCRUN",
         "chflags",
         "clmv",
         "deduped",
@@ -30,7 +26,6 @@
         "ndjson",
         "osascript",
         "regrtest",
-        "tcltk",
         "tmpl",
         "nohidden",
         "xattr"
