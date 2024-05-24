@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
-# https://github.com/direnv/direnv/wiki/Find-Up-with-Alternates
 function find_up_ {
+  # https://github.com/direnv/direnv/wiki/Find-Up-with-Alternates
   (
     while true; do
       for v in "${@}"; do
@@ -20,9 +20,44 @@ function find_up_ {
   )
 }
 
+function check_env {
+  local ret=0;
+  for var in "$@"; do
+    [[ -v $var ]] || { log_error "$var is missing"; ret=1; };
+  done;
+  return $ret;
+}
 
-# https://github.com/direnv/direnv/wiki/Find-Up-with-Alternates
+function layout_poetry {
+  # https://github.com/direnv/direnv/wiki/Python#poetry
+  # TODO (kyle): add support for selecting python version
+  PYPROJECT_TOML="${PYPROJECT_TOML:-pyproject.toml}";
+
+  if [[ ! -f "$PYPROJECT_TOML" ]]; then
+    log_status "No pyproject.toml found. Executing \`poetry init\` to create a \`$PYPROJECT_TOML\` first.";
+    poetry init --no-interaction --python "^$(python3 --version 2>/dev/null | cut -d' ' -f2 | cut -d. -f1-2)";
+  fi;
+
+  if [[ -d ".venv" ]]; then
+    VIRTUAL_ENV="$(pwd)/.venv";
+  else
+    VIRTUAL_ENV=$(poetry env info --path 2>/dev/null ; true);
+  fi
+
+  if [[ -z $VIRTUAL_ENV || ! -d $VIRTUAL_ENV ]]; then
+    log_status "No virtual environment exists. Executing \`poetry install\` to create one.";
+    poetry install;
+    VIRTUAL_ENV=$(poetry env info --path);
+  fi
+
+  PATH_add "$VIRTUAL_ENV/bin";
+  export POETRY_ACTIVE=1;  # or VENV_ACTIVE=1
+  export VIRTUAL_ENV;
+}
+
+
 function read_version_file {
+  # https://github.com/direnv/direnv/wiki/Find-Up-with-Alternates
   local file
   file="$(find_up_ "${@}")"
 
@@ -33,11 +68,12 @@ function read_version_file {
 }
 
 
-# Usage: source_secrets_if_exists
-#
-# Loads ".secrets", but only if it exists.
-#
 function source_secrets_if_exists {
+  # Usage: source_secrets_if_exists
+  #
+  # Loads ".secrets", but only if it exists.
+  #
+
   watch_file "./.secrets"
   set -a
   if [[ -f "./.secrets" ]]; then source_env "./.secrets"; fi
@@ -45,8 +81,8 @@ function source_secrets_if_exists {
 }
 
 
-# https://github.com/direnv/direnv/wiki/Node
 function use_nvm {
+  # https://github.com/direnv/direnv/wiki/Node
   local version
   version="${1}"
 

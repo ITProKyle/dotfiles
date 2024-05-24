@@ -17,6 +17,11 @@ Host gitlab-tools.swacorp.com gitlab-ssh.apex-tools.prod0.prod.aws.swacorp.com
   User git
   IdentityFile ~/.ssh/kyle.finley
 
+Host southwest.gitlab-dedicated.com
+  HostName southwest.gitlab-dedicated.com
+  User git
+  IdentityFile ~/.ssh/kyle.finley
+
 Host stash1-tools.swacorp.com
   HostName stash1-tools.swacorp.com
   User git
