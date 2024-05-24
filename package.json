@@ -1,8 +1,8 @@
 {
   "description": "Version management for npm tools.",
   "devDependencies": {
-    "@itprokyle/cspell-dict": "^1.2.2",
-    "cspell": "^8.8.0"
+    "@itprokyle/cspell-dict": "^1.2.3",
+    "cspell": "^8.8.3"
   },
   "name": "dotfiles",
   "version": "0.0.0"
