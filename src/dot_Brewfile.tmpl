@@ -3,7 +3,9 @@ tap "gabrie30/utils"
 tap "github/gh"
 tap "homebrew/bundle"
 tap "homebrew/cask-fonts"
+tap "knqyf263/pet"
 tap "lindell/multi-gitter"
+tap "ynqa/tap"
 {{ if eq .workstation_use "work" -}}
 tap "cpe/tools", "git@gitlab-ssh.apex-tools.prod0.prod.aws.swacorp.com:cpe/homebrew-cpe-tools.git"
 # command line interface for the ec account registry
@@ -33,26 +35,34 @@ brew "libyaml"
 brew "readline"
 # Extendable version manager with support for Ruby, Node.js, Erlang & more
 brew "asdf"
+# Improved shell history for zsh, bash, fish and nushell
+brew "atuin"
+# Command-line interface for SQLite
+brew "sqlite"
 # Interpreted, interactive, object-oriented programming language
 brew "python@3.11"
 # Official Amazon AWS command-line interface
 brew "awscli"
 # Programmable completion for Bash 3.2
 brew "bash-completion"
+# Simple testing library for bash scripts
+brew "bashunit"
 # C library implementing the SSH2 protocol
 brew "libssh2"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
+# Python code formatter
+brew "black"
 # Fish completion for brew-cask
 brew "brew-cask-completion"
 # New way to see and navigate directory trees
 brew "broot"
 # Concurrent, cache-efficient, and Dockerfile-agnostic builder toolkit
 brew "buildkit"
+# GNU internationalization (i18n) and localization (l10n) library
+brew "gettext"
 # X.Org: Core X11 protocol client library
 brew "libx11"
-# Manage compile and link flags for libraries
-brew "pkg-config"
 # Object-file caching compiler wrapper
 brew "ccache"
 # Create and view interactive cheat sheets for *nix commands
@@ -83,6 +93,10 @@ brew "direnv"
 brew "dust"
 # Select default apps for documents and URL schemes on macOS
 brew "duti"
+# Command-line fuzzy finder written in Go
+brew "fzf"
+# GNU awk utility
+brew "gawk"
 # Toolkit for image loading and pixel buffer manipulation
 brew "gdk-pixbuf"
 # GitHub command-line tool
@@ -107,8 +121,12 @@ brew "libevent"
 brew "unbound"
 # GNU Transport Layer Security (TLS) Library
 brew "gnutls"
+# Manage compile and link flags for libraries
+brew "pkg-config"
 # Generate introspection data for GObject libraries
 brew "gobject-introspection"
+# Ping, but with a graph
+brew "gping"
 # Library for manipulating JPEG-2000 images
 brew "jasper"
 # OpenType text shaping engine
@@ -121,6 +139,10 @@ brew "graphviz"
 brew "grep"
 # Smarter Dockerfile linter to validate best practices
 brew "hadolint"
+# Kubernetes package manager
+brew "helm"
+# Text-based UI library
+brew "ncurses"
 # Improved top (interactive process viewer)
 brew "htop"
 # Lightweight and flexible command-line JSON processor
@@ -135,14 +157,12 @@ brew "just"
 brew "k9s"
 # DNS library written in C
 brew "ldns"
+# Secure hashing function
+brew "libb2"
 # CBOR protocol implementation for C and others
 brew "libcbor"
 # Provides library functionality for FIDO U2F & FIDO 2.0, including USB
 brew "libfido2"
-# Cryptography and SSL/TLS Toolkit
-brew "openssl@1.1"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.9"
 # C library SSHv1/SSHv2 client and server protocols
 brew "libssh"
 # Library for USB device access
@@ -153,10 +173,14 @@ brew "libxml2"
 brew "libxmlsec1"
 # Utility for directing compilation
 brew "make"
+# Command-line tool to create and query container image manifest list/indexes
+brew "manifest-tool"
 # Mac App Store command-line interface
 brew "mas"
 # 'traceroute' and 'ping' in a single tool
 brew "mtr"
+# General-purpose lossless data-compression library
+brew "zlib"
 # Open source relational database management system
 brew "mysql"
 # Open source relational database management system
@@ -165,6 +189,8 @@ brew "mysql-client"
 brew "nmap"
 # Manage multiple Node.js versions
 brew "nvm"
+# Cryptography and SSL/TLS Toolkit
+brew "openssl@1.1"
 # Open client for Cisco AnyConnect VPN
 brew "openconnect"
 # OpenBSD freely-licensed SSH connectivity tools
@@ -177,12 +203,16 @@ brew "p7zip"
 brew "podman"
 # Interpreted, interactive, object-oriented programming language
 brew "python@3.10"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.9"
 # Command-line toolbox for fancy output in the terminal
 brew "rich-cli"
 # Powerful, clean, object-oriented scripting language
 brew "ruby"
 # Safe, concurrent, practical language
 brew "rust"
+# CLI search and replace | Space Age seD
+brew "sad"
 # Static analysis and lint tool, for (ba)sh scripts
 brew "shellcheck"
 # Generate Markdown files from inline source code documentation
@@ -227,15 +257,19 @@ brew "zsh-syntax-highlighting"
 brew "cloudquery/tap/cloudquery"
 # Quickly clone an entire org/users repositories into one directory
 brew "gabrie30/utils/ghorg"
+# Simple command-line snippet manager
+brew "knqyf263/pet/pet"
 # Update multiple repositories in bulk
 brew "lindell/multi-gitter/multi-gitter"
-# Open source color effects manager for Razer devices
+# JSON navigator and interactive filter leveraging jq
+brew "ynqa/tap/jnv"
+# Open source colour effects manager for Razer devices
 cask "1kc-razer"
 # Application launcher and productivity software
 cask "alfred"
 # Tool to flash OS images to SD cards & USB drives
 cask "balenaetcher"
-# Menu bar icon organizer
+# Menu bar icon organiser
 cask "bartender"
 # Tool to remove unnecessary files and folders from disk
 cask "cleanmymac"
@@ -243,7 +277,7 @@ cask "cleanmymac"
 cask "dash"
 # Voice and text chat software
 cask "discord"
-# App to build and share containerized applications and microservices
+# App to build and share containerised applications and microservices
 cask "docker"
 # Free monospaced font with programming ligatures
 cask "font-fira-code"
@@ -267,6 +301,8 @@ cask "notion-enhanced"
 cask "podman-desktop"
 # Imaging utility to install operating systems to a microSD card
 cask "raspberry-pi-imager"
+# Rust-based terminal
+cask "warp"
 # Application for configuring any YubiKey
 cask "yubico-yubikey-manager"
 mas "Bakery", id: 1575220747
@@ -277,3 +313,4 @@ mas "iStatistica Pro", id: 1447778660
 mas "Magnet", id: 441258766
 mas "Tot", id: 1491071483
 mas "Xcode", id: 497799835
+mas "Yubico Authenticator", id: 1497506650
