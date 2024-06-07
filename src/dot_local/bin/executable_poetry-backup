@@ -1,0 +1,66 @@
+#! /usr/bin/env zsh
+
+set -eo pipefail
+
+# shellcheck disable=SC2296
+SCRIPT_PATH="${(%):-%x}";  # special zsh syntax
+SCRIPT_NAME=$(basename "$SCRIPT_PATH")
+
+BACKUP_DIR="${HOME}/.config/pypoetry"
+
+EXIT_CODE=0;
+ERRORS=();
+
+function __help {
+  cat << HEREDOC
+
+  Backup poetry configuration files to a safe location.
+  This is required when reinstalling poetry if any customizations have been made
+  as they will not be retained.
+
+  Usage: ${SCRIPT_NAME} [--help]
+
+  Arguments:
+      -h, --help           show this help message and exit
+
+HEREDOC
+}
+
+
+function __poetry_backup {
+  mkdir -p "${BACKUP_DIR}";
+  for file_name in "auth.toml" "config.toml"; do
+    if [[ "${__FINLEY_OS}" == "darwin" ]]; then
+      file_path="${POETRY_HOME_MACOS}/${file_name}"
+    else
+      file_path="${POETRY_HOME_LINUX}/${file_name}"
+    fi
+
+    if [[ -f "${file_path}" ]]; then
+      cp -i "${file_path}" "${BACKUP_DIR}/${file_name}";
+      echo "backed up \"${file_name}\" to \"${BACKUP_DIR}\"";
+    fi
+  done
+}
+
+while [[ "$1" != "" ]]; do
+  case $1 in
+    --help | -h)
+      __help; exit;
+      ;;
+    *)
+      ERRORS+=("Unrecognized argument: $1");
+      EXIT_CODE=1;
+      ;;
+  esac
+done
+
+if [[ ${EXIT_CODE} -gt 0 ]]; then
+  echo "${SCRIPT_NAME}: Fatal error(s) detected exiting...";
+  for error_text in "${ERRORS[@]}"; do
+    echo "   ${error_text}";
+  done
+  exit ${EXIT_CODE};
+fi
+
+__poetry_backup;

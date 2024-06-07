@@ -55,7 +55,6 @@ function layout_poetry {
   export VIRTUAL_ENV;
 }
 
-
 function read_version_file {
   # https://github.com/direnv/direnv/wiki/Find-Up-with-Alternates
   local file
@@ -66,7 +65,6 @@ function read_version_file {
   watch_file "${file}"
   ruby -e "puts ARGF.readline" 2> /dev/null "${file}"  # cspell:ignore ARGF
 }
-
 
 function source_secrets_if_exists {
   # Usage: source_secrets_if_exists
@@ -79,7 +77,6 @@ function source_secrets_if_exists {
   if [[ -f "./.secrets" ]]; then source_env "./.secrets"; fi
   set +a
 }
-
 
 function use_nvm {
   # https://github.com/direnv/direnv/wiki/Node

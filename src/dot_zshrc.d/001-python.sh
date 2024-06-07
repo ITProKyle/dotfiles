@@ -36,25 +36,6 @@ elif [[ "${__FINLEY_OS}" == "linux" ]]; then
   alias poetry-python='${POETRY_HOME_LINUX}/venv/bin/python'
 fi
 
-function backup-poetry {
-  # Backup poetry configuration.
-  local BACKUP_DIR="${HOME}/.config/pypoetry"
-
-  mkdir -p "${BACKUP_DIR}";
-  for file_name in "auth.toml" "config.toml"; do
-    if [[ "${__FINLEY_OS}" == "darwin" ]]; then
-      file_path="${POETRY_HOME_MACOS}/${file_name}"
-    else
-      file_path="${POETRY_HOME_LINUX}/${file_name}"
-    fi
-
-    if [[ -f "${file_path}" ]]; then
-      cp -i "${file_path}" "${BACKUP_DIR}/${file_name}";
-      echo "backed up \"${file_name}\" to \"${BACKUP_DIR}\"";
-    fi
-  done
-}
-
 function restore-poetry {
   # Restore poetry configuration.
   local BACKUP_DIR="${HOME}/.config/pypoetry"
