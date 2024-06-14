@@ -76,41 +76,6 @@ function py-install {
   PROFILE_TASK='-m test.regrtest --pgo -j0' pyenv install $@;
 }
 
-function install-poetry {
-  local use_pipx
-  local use_script
-  echo "Install can use pipx or the https://install.python-poetry.org script.";
-  echo;
-
-  printf "Install using pipx? (Y/n) ";
-  read -n 1 use_pipx;
-  use_pipx="${use_pipx:-y}"
-  case $use_pipx in
-    Y|y)
-      pipx install poetry;
-      pipx inject poetry poetry-dynamic-versioning poetry-plugin-export;
-      ;;
-    *)
-      printf "Install using https://install.python-poetry.org script? (Y/n) ";
-      read -n 1 use_script;
-      use_script="${use_script:-y}"
-      case $use_script in
-        Y|y)
-          curl -sSL https://install.python-poetry.org | python3 -;
-          poetry self add poetry-plugin-export;
-          poetry self add poetry-dynamic-versioning;
-          ;;
-        *)
-          printf "\e[31;1m";
-          printf "[ERROR] unable to determine install method";
-          printf "\e[0m";
-          ;;
-      esac;
-  esac;
-
-  restore-poetry;
-}
-
 function uninstall-poetry {
   local use_pipx
   local use_script

@@ -2,6 +2,8 @@
 
 set -eo pipefail
 
+source ~/.zshrc.d/000-color-functions.sh;  # required to load functions for color output
+
 # shellcheck disable=SC2296
 SCRIPT_PATH="${(%):-%x}";  # special zsh syntax
 SCRIPT_NAME=$(basename "$SCRIPT_PATH")
@@ -56,9 +58,9 @@ while [[ "$1" != "" ]]; do
 done
 
 if [[ ${EXIT_CODE} -gt 0 ]]; then
-  echo "${SCRIPT_NAME}: Fatal error(s) detected exiting...";
+  log-error "${SCRIPT_NAME}: Fatal error(s) detected exiting...";
   for error_text in "${ERRORS[@]}"; do
-    echo "   ${error_text}";
+    log-error "   ${error_text}";
   done
   exit ${EXIT_CODE};
 fi

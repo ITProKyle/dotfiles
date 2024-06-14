@@ -1,0 +1,75 @@
+#! /usr/bin/env zsh
+
+set -eo pipefail
+
+source ~/.zshrc.d/000-color-functions.sh;  # required to load functions for color output
+
+# shellcheck disable=SC2296
+SCRIPT_PATH="${(%):-%x}";  # special zsh syntax
+SCRIPT_NAME=$(basename "$SCRIPT_PATH")
+
+EXIT_CODE=0;
+ERRORS=();
+
+__QUIET_SCRIPT="false";
+
+function __help {
+  cat << HEREDOC
+
+  Install pipx.
+
+  Usage: ${SCRIPT_NAME} [OPTIONS]
+
+  Arguments:
+      -h, --help           show this help message and exit
+      -q, --quiet          suppress some output
+
+HEREDOC
+}
+
+function __pipx_install {
+  if [[ -z "$(command -v pipx)" ]]; then
+    log-notice "pipx not found! installing it now...";
+    _python_path="$(command -v python3)";
+    "${_python_path}" -m pip install --user pipx;
+    "${_python_path}" -m pipx installpath;
+    log-success "pipx has been successfully installed!";
+
+    if [[ -z "$(command -v pipx)" ]]; then
+      log-error "pipx is still not available in PATH after install";
+      log-error "additional steps are required";
+      exit 1;
+    fi
+
+  else
+    if [[ "${__QUIET_SCRIPT}" != "true" ]]; then
+      secho "pipx is already installed" green dim;
+    fi
+  fi
+}
+
+while [[ "$1" != "" ]]; do
+  case $1 in
+    --help | -h)
+      __help; exit;
+      ;;
+    --quiet | -q)
+      __QUIET_SCRIPT="true";
+      shift;
+      ;;
+    *)
+      ERRORS+=("Unrecognized argument: $1");
+      EXIT_CODE=1;
+      ;;
+  esac
+done
+
+if [[ ${EXIT_CODE} -gt 0 ]]; then
+  log-error "${SCRIPT_NAME}: Fatal error(s) detected exiting...";
+  for error_text in "${ERRORS[@]}"; do
+    log-error "   ${error_text}";
+  done
+  log-error ${EXIT_CODE};
+fi
+
+__pipx_install;

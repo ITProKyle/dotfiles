@@ -16,10 +16,16 @@ help: ## show this message
 brewfile:  ## generate a Brewfile.local from the current system
 	@brew bundle dump --describe --force
 
+exe: ## make files executable
+	@find ./src -type f -name 'executable_*' -print0 | xargs -0r chmod +x;
+
 fix: run-pre-commit ## run all automatic fixes
 
 fix-md: ## automatically fix markdown format errors
 	@poetry run pre-commit run mdformat --all-files
+
+home: ## equivalent to "chezmoi apply"
+	@chezmoi apply
 
 lint: ## run all linters
 	@echo "no linters configured for this project"
