@@ -33,7 +33,7 @@ function __poetry_install {
   if [[ -z "$(command -v poetry)" ]]; then
     log-notice "poetry not found! installing it now...";
     pipx install poetry;
-    pipx inject poetry poetry-dynamic-versioning poetry-plugin-export;
+    pipx inject poetry "poetry-dynamic-versioning[plugin]" poetry-plugin-export;
     log-success "poetry has been successfully installed!";
 
     if [[ -z "$(command -v poetry)" ]]; then

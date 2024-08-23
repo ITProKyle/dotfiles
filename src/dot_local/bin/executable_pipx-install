@@ -28,11 +28,13 @@ HEREDOC
 }
 
 function __pipx_install {
+  local python_path;
+
   if [[ -z "$(command -v pipx)" ]]; then
     log-notice "pipx not found! installing it now...";
-    _python_path="$(command -v python3)";
-    "${_python_path}" -m pip install --user pipx;
-    "${_python_path}" -m pipx installpath;
+    python_path="$(command -v python3)";
+    "${python_path}" -m pip install --user pipx;
+    "${python_path}" -m pipx ensurepath;
     log-success "pipx has been successfully installed!";
 
     if [[ -z "$(command -v pipx)" ]]; then

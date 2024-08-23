@@ -79,4 +79,5 @@ function log-debug { secho "[DEBUG] ${1}" cyan dim italic; }
 function log-deprecated { secho "[DEPRECATED] ${1}" cyan bold; }
 function log-error { secho "[ERROR] ${1}" red bold; }
 function log-notice { secho "[NOTICE] ${1}" magenta bold; }
+function log-success { secho "[SUCCESS] ${1}" green bold; }
 function log-warning { secho "[WARNING] ${1}" yellow bold; }
