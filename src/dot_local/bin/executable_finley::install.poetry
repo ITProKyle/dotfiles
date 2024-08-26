@@ -1,8 +1,6 @@
 #! /usr/bin/env oi
 # shellcheck shell=bash
 
-source ~/.zshrc.d/000-color-functions.sh;  # required to load functions for color output
-
 # shellcheck disable=SC2296
 SCRIPT_PATH="${(%):-%x}";  # special zsh syntax
 SCRIPT_NAME=$(basename "$SCRIPT_PATH")
@@ -12,7 +10,7 @@ ERRORS=();
 
 __QUIET_SCRIPT="false";
 
-function __help {
+function __finley::install.poetry.help {
   cat << HEREDOC
 
   Install poetry.
@@ -26,8 +24,8 @@ function __help {
 HEREDOC
 }
 
-function __poetry_install {
-  pipx-install --quiet;
+function __finley::install.poetry {
+  finley::install.pipx --quiet;
 
   if [[ -z "$(command -v poetry)" ]]; then
     oi::log.notice "poetry not found! installing it now...";
@@ -51,7 +49,7 @@ function __poetry_install {
 while [[ "${1:-}" != "" ]]; do
   case $1 in
     --help | -h)
-      __help; exit;
+      __finley::install.poetry.help; exit;
       ;;
     --quiet | -q)
       __QUIET_SCRIPT="true";
@@ -73,4 +71,4 @@ if [[ ${EXIT_CODE} -gt 0 ]]; then
   oi::exit.error;
 fi
 
-__poetry_install;
+__finley::install.poetry;
