@@ -1,6 +1,5 @@
-#! /usr/bin/env zsh
-
-set -eo pipefail
+#! /usr/bin/env oi
+# shellcheck shell=bash
 
 source ~/.zshrc.d/000-color-functions.sh;  # required to load functions for color output
 
@@ -31,25 +30,25 @@ function __poetry_install {
   pipx-install --quiet;
 
   if [[ -z "$(command -v poetry)" ]]; then
-    log-notice "poetry not found! installing it now...";
+    oi::log.notice "poetry not found! installing it now...";
     pipx install poetry;
     pipx inject poetry "poetry-dynamic-versioning[plugin]" poetry-plugin-export;
-    log-success "poetry has been successfully installed!";
+    oi::log.success "poetry has been successfully installed!";
 
     if [[ -z "$(command -v poetry)" ]]; then
-      log-error "poetry is still not available in PATH after install";
-      log-error "additional steps are required";
-      exit 1;
+      oi::log.fatal "poetry is still not available in PATH after install";
+      oi::log.fatal "additional steps are required";
+      oi::exit.nok;
     fi
 
   else
     if [[ "${__QUIET_SCRIPT}" != "true" ]]; then
-      secho "poetry is already installed" green dim;
+      oi::log.info "poetry is already installed" green dim;
     fi
   fi
 }
 
-while [[ "$1" != "" ]]; do
+while [[ "${1:-}" != "" ]]; do
   case $1 in
     --help | -h)
       __help; exit;
@@ -61,16 +60,17 @@ while [[ "$1" != "" ]]; do
     *)
       ERRORS+=("Unrecognized argument: $1");
       EXIT_CODE=1;
+      shift;
       ;;
   esac
 done
 
 if [[ ${EXIT_CODE} -gt 0 ]]; then
-  log-error "${SCRIPT_NAME}: Fatal error(s) detected exiting...";
+  oi::log.fatal "${SCRIPT_NAME}: Fatal error(s) detected exiting...";
   for error_text in "${ERRORS[@]}"; do
-    log-error "   ${error_text}";
+    oi::log.fatal "   ${error_text}";
   done
-  exit ${EXIT_CODE};
+  oi::exit.nok;
 fi
 
 __poetry_install;

@@ -1,8 +1,5 @@
-#! /usr/bin/env zsh
-
-set -eo pipefail
-
-source ~/.zshrc.d/000-color-functions.sh;  # required to load functions for color output
+#! /usr/bin/env oi
+# shellcheck shell=bash
 
 # shellcheck disable=SC2296
 SCRIPT_PATH="${(%):-%x}";  # special zsh syntax
@@ -40,29 +37,30 @@ function __poetry_backup {
 
     if [[ -f "${file_path}" ]]; then
       cp -i "${file_path}" "${BACKUP_DIR}/${file_name}";
-      echo "backed up \"${file_name}\" to \"${BACKUP_DIR}\"";
+      oi::log.success "backed up \"${file_name}\" to \"${BACKUP_DIR}\"";
     fi
   done
 }
 
-while [[ "$1" != "" ]]; do
+while [[ "${1:-}" != "" ]]; do
   case $1 in
     --help | -h)
-      __help; exit;
+      __help; oi::exit.ok "nothing to do";
       ;;
     *)
       ERRORS+=("Unrecognized argument: $1");
       EXIT_CODE=1;
+      shift;
       ;;
   esac
 done
 
 if [[ ${EXIT_CODE} -gt 0 ]]; then
-  log-error "${SCRIPT_NAME}: Fatal error(s) detected exiting...";
+  oi::log.fatal "${SCRIPT_NAME}: Fatal error(s) detected exiting...";
   for error_text in "${ERRORS[@]}"; do
-    log-error "   ${error_text}";
+    oi::log.fatal "   ${error_text}";
   done
-  exit ${EXIT_CODE};
+  oi::exit.nok;
 fi
 
 __poetry_backup;

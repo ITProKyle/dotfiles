@@ -125,7 +125,7 @@ function oi::log.trace() {
   #
   local message=$*;
   oi::log.log \
-    "${__OI_LOG_LEVEL_INFO}" \
+    "${__OI_LOG_LEVEL_TRACE}" \
     "${__OI_COLORS_DIM_YELLOW}${message}${__OI_COLORS_RESET}";
 }
 
@@ -138,8 +138,21 @@ function oi::log.debug() {
   #
   local message=$*;
   oi::log.log \
-    "${__OI_LOG_LEVEL_INFO}" \
+    "${__OI_LOG_LEVEL_DEBUG}" \
     "${__OI_COLORS_DIM_GREEN}${message}${__OI_COLORS_RESET}";
+}
+
+function oi::log.deprecated() {
+  #
+  # Log a deprecation message @ warning level.
+  #
+  # Arguments:
+  #   $* Message to display
+  #
+  local message=$*;
+  oi::log.log \
+    "${__OI_LOG_LEVEL_WARNING}" \
+    "${__OI_COLORS_BOLD_YELLOW}[DEPRECATED] ${message}${__OI_COLORS_RESET}";
 }
 
 function oi::log.info() {
@@ -166,6 +179,19 @@ function oi::log.notice() {
   oi::log.log \
     "${__OI_LOG_LEVEL_NOTICE}" \
     "${__OI_COLORS_BOLD_MAGENTA}${message}${__OI_COLORS_RESET}";
+}
+
+function oi::log.success() {
+  #
+  # Log a message @ info level that is bold and green.
+  #
+  # Arguments:
+  #   $* Message to display
+  #
+  local message=$*;
+  oi::log.log \
+    "${__OI_LOG_LEVEL_INFO}" \
+    "${__OI_COLORS_BOLD_GREEN}${message}${__OI_COLORS_RESET}";
 }
 
 function oi::log.warning() {

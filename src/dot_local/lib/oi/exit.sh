@@ -4,7 +4,7 @@
 
 function oi::exit.nok() {
   #
-  # Exit the script with as failed with an optional error message.
+  # Exit the script as failed with an optional error message.
   #
   # Arguments:
   #   $1 Error message (optional)
