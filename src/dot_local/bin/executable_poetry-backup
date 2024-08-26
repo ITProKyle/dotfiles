@@ -60,7 +60,7 @@ if [[ ${EXIT_CODE} -gt 0 ]]; then
   for error_text in "${ERRORS[@]}"; do
     oi::log.fatal "   ${error_text}";
   done
-  oi::exit.nok;
+  oi::exit.error;
 fi
 
 __poetry_backup;

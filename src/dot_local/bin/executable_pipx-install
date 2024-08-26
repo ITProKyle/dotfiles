@@ -37,7 +37,7 @@ function __pipx_install {
     if [[ -z "$(command -v pipx)" ]]; then
       oi::log.fatal "pipx is still not available in PATH after install";
       oi::log.fatal "additional steps are required";
-      oi::exit.nok;
+      oi::exit.error;
     fi
 
   else
@@ -70,7 +70,7 @@ if [[ ${EXIT_CODE} -gt 0 ]]; then
   for error_text in "${ERRORS[@]}"; do
     oi::log.fatal "   ${error_text}";
   done
-  oi::exit.nok;
+  oi::exit.error;
 fi
 
 __pipx_install;

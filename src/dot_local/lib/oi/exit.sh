@@ -2,7 +2,7 @@
 # shellcheck shell=bash
 # ==============================================================================
 
-function oi::exit.nok() {
+function oi::exit.error() {
   #
   # Exit the script as failed with an optional error message.
   #
@@ -36,7 +36,7 @@ function oi::exit.die_if_false() {
   oi::log.trace "${funcstack[@]:0:1}:" "$@";
 
   if oi::var.false "${value}"; then
-    oi::exit.nok "${message}";
+    oi::exit.error "${message}";
   fi
 }
 
@@ -55,7 +55,7 @@ function oi::die_if_true() {
   oi::log.trace "${funcstack[@]:0:1}:" "$@";
 
   if oi::var.true "${value}"; then
-    oi::exit.nok "${message}";
+    oi::exit.error "${message}";
   fi
 }
 
@@ -74,7 +74,7 @@ function oi::die_if_empty() {
   oi::log.trace "${funcstack[@]:0:1}:" "$@";
 
   if oi::var.is_empty "${value}"; then
-    oi::exit.nok "${message}";
+    oi::exit.error "${message}";
   fi
 }
 

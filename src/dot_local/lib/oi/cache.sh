@@ -57,7 +57,7 @@ function oi::cache.set() {
 
   if ! oi::fs.directory_exists "${__OI_CACHE_DIR}"; then
     mkdir -p "${__OI_CACHE_DIR}" ||
-      oi::exit.nok "Could not create cache folder";
+      oi::exit.error "Could not create cache folder";
   fi
 
   if ! printf "%s" "$value" > "${__OI_CACHE_DIR}/${key}.cache"; then
@@ -81,7 +81,7 @@ function oi::cache.flush() {
   oi::log.trace "${funcstack[@]:0:1}:" "$@";
 
   if ! rm -f "${__OI_CACHE_DIR}/${key}.cache"; then
-    oi::exit.nok "An error while flushing ${key} from cache";
+    oi::exit.error "An error while flushing ${key} from cache";
     return "${__OI_EXIT_NOK}";
   fi
 
@@ -100,7 +100,7 @@ function oi::cache.flush_all() {
   fi
 
   if ! rm -f -r "${__OI_CACHE_DIR}"; then
-    oi::exit.nok "Could not flush cache";
+    oi::exit.error "Could not flush cache";
     return "${__OI_EXIT_NOK}";
   fi
 

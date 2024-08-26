@@ -272,7 +272,7 @@ function oi::log.level() {
       log_level="${__OI_LOG_LEVEL_OFF}";
       ;;
     *)
-      oi::exit.nok "Unknown log_level: ${log_level}"
+      oi::exit.error "Unknown log_level: ${log_level}"
   esac
 
   export __OI_LOG_LEVEL="${log_level}";
