@@ -10,7 +10,7 @@ BACKUP_DIR="${HOME}/.config/pypoetry"
 EXIT_CODE=0;
 ERRORS=();
 
-function __help {
+function __finley::backup.poetry.help {
   cat << HEREDOC
 
   Backup poetry configuration files to a safe location.
@@ -26,7 +26,7 @@ HEREDOC
 }
 
 
-function __poetry_backup {
+function __finley::backup.poetry {
   mkdir -p "${BACKUP_DIR}";
   for file_name in "auth.toml" "config.toml"; do
     if [[ "${__FINLEY_OS}" == "darwin" ]]; then
@@ -45,7 +45,7 @@ function __poetry_backup {
 while [[ "${1:-}" != "" ]]; do
   case $1 in
     --help | -h)
-      __help; oi::exit.ok "nothing to do";
+      __finley::backup.poetry.help; oi::exit.ok "nothing to do";
       ;;
     *)
       ERRORS+=("Unrecognized argument: $1");
@@ -63,4 +63,4 @@ if [[ ${EXIT_CODE} -gt 0 ]]; then
   oi::exit.error;
 fi
 
-__poetry_backup;
+__finley::backup.poetry;
