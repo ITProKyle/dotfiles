@@ -67,14 +67,18 @@ function read_version_file {
 }
 
 function source_secrets_if_exists {
-  # Usage: source_secrets_if_exists
+  # Usage: source_secrets_if_exists [DIR_WITH_FILE]
   #
   # Loads ".secrets", but only if it exists.
+  # If no arguments are provided, the current directory is used.
+  # DO NOT include a trailing "/"
   #
+  local dir_with_file
+  dir_with_file="${1:-.}"
 
-  watch_file "./.secrets"
+  watch_file "${dir_with_file}/.secrets"
   set -a
-  if [[ -f "./.secrets" ]]; then source_env "./.secrets"; fi
+  if [[ -f "${dir_with_file}/.secrets" ]]; then source_env "${dir_with_file}/.secrets"; fi
   set +a
 }
 
