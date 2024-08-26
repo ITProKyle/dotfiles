@@ -124,7 +124,9 @@ function oi::log.trace() {
   #   $* Message to display
   #
   local message=$*;
-  oi::log.log "${__OI_LOG_LEVEL_TRACE}" "${message}";
+  oi::log.log \
+    "${__OI_LOG_LEVEL_INFO}" \
+    "${__OI_COLORS_DIM_YELLOW}${message}${__OI_COLORS_RESET}";
 }
 
 function oi::log.debug() {
@@ -135,7 +137,9 @@ function oi::log.debug() {
   #   $* Message to display
   #
   local message=$*;
-  oi::log.log "${__OI_LOG_LEVEL_DEBUG}" "${message}";
+  oi::log.log \
+    "${__OI_LOG_LEVEL_INFO}" \
+    "${__OI_COLORS_DIM_GREEN}${message}${__OI_COLORS_RESET}";
 }
 
 function oi::log.info() {
@@ -148,7 +152,7 @@ function oi::log.info() {
   local message=$*;
   oi::log.log \
     "${__OI_LOG_LEVEL_INFO}" \
-    "${__OI_COLORS_GREEN}${message}${__OI_COLORS_RESET}";
+    "${__OI_COLORS_BLUE}${message}${__OI_COLORS_RESET}";
 }
 
 function oi::log.notice() {
@@ -161,7 +165,7 @@ function oi::log.notice() {
   local message=$*;
   oi::log.log \
     "${__OI_LOG_LEVEL_NOTICE}" \
-    "${__OI_COLORS_CYAN}${message}${__OI_COLORS_RESET}";
+    "${__OI_COLORS_BOLD_MAGENTA}${message}${__OI_COLORS_RESET}";
 }
 
 function oi::log.warning() {
@@ -174,7 +178,7 @@ function oi::log.warning() {
   local message=$*;
   oi::log.log \
     "${__OI_LOG_LEVEL_WARNING}" \
-    "${__OI_COLORS_YELLOW}${message}${__OI_COLORS_RESET}";
+    "${__OI_COLORS_BOLD_YELLOW}${message}${__OI_COLORS_RESET}";
 }
 
 function oi::log.error() {
@@ -187,7 +191,7 @@ function oi::log.error() {
   local message=$*;
   oi::log.log \
     "${__OI_LOG_LEVEL_ERROR}" \
-    "${__OI_COLORS_MAGENTA}${message}${__OI_COLORS_RESET}";
+    "${__OI_COLORS_RED}${message}${__OI_COLORS_RESET}";
 }
 
 function oi::log.fatal() {
@@ -200,7 +204,7 @@ function oi::log.fatal() {
   local message=$*;
   oi::log.log \
     "${__OI_LOG_LEVEL_FATAL}" \
-    "${__OI_COLORS_RED}${message}${__OI_COLORS_RESET}";
+    "${__OI_COLORS_BOLD_RED}${message}${__OI_COLORS_RESET}";
 }
 
 function oi::log.level() {
