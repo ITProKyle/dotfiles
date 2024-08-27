@@ -1,0 +1,55 @@
+{{ if ne .chezmoi.os "windows" }}
+[".local/bin/age"]
+type = "archive-file"
+url = "https://github.com/FiloSottile/age/releases/download/v1.2.0/age-v1.2.0-{{ .chezmoi.os }}-{{ .chezmoi.arch }}.tar.gz"
+path = "age/age"
+
+[".oh-my-zsh"]
+type = "archive"
+url = "https://github.com/ohmyzsh/ohmyzsh/archive/master.tar.gz"
+exact = true
+stripComponents = 1
+refreshPeriod = "12h"
+
+[".oh-my-zsh/custom/plugins/autoupdate"]
+type = "archive"
+url = "https://github.com/TamCore/autoupdate-oh-my-zsh-plugins/archive/master.tar.gz"
+exact = true
+stripComponents = 1
+refreshPeriod = "12h"
+
+[".oh-my-zsh/custom/plugins/evalcache"]
+type = "archive"
+url = "https://github.com/mroth/evalcache/archive/master.tar.gz"
+exact = true
+stripComponents = 1
+refreshPeriod = "12h"
+
+[".oh-my-zsh/custom/plugins/git-open"]
+type = "archive"
+url = "https://github.com/paulirish/git-open/archive/master.tar.gz"
+exact = true
+stripComponents = 1
+refreshPeriod = "12h"
+
+[".oh-my-zsh/custom/plugins/zsh-autosuggestions"]
+type = "archive"
+url = "https://github.com/zsh-users/zsh-autosuggestions/archive/master.tar.gz"
+exact = true
+stripComponents = 1
+refreshPeriod = "12h"
+
+[".oh-my-zsh/custom/plugins/zsh-syntax-highlighting"]
+type = "archive"
+url = "https://github.com/zsh-users/zsh-syntax-highlighting/archive/master.tar.gz"
+exact = true
+stripComponents = 1
+refreshPeriod = "12h"
+
+[".oh-my-zsh/custom/plugins/zshrc.d"]
+type = "archive"
+url = "https://github.com/mattmc3/zshrc.d/archive/master.tar.gz"
+exact = true
+stripComponents = 1
+refreshPeriod = "12h"
+{{ end }}

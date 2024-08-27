@@ -1,0 +1,68 @@
+#! /usr/bin/env oi
+# shellcheck shell=bash
+
+# shellcheck disable=SC2296
+SCRIPT_PATH="${(%):-%x}";  # special zsh syntax
+SCRIPT_NAME=$(basename "$SCRIPT_PATH")
+
+EXIT_CODE=0;
+ERRORS=();
+
+function __list_cmds {
+  for filename in "$(dirname "${SCRIPT_PATH}")"/finley::*; do
+    [ -e "$filename" ] || continue;
+    basename "$filename";
+  done
+}
+
+function __finley.help.list_cmds {
+  #
+  # Helper to generate a list of commands to provide in help output.
+  #
+  for filename in $(__list_cmds); do
+    [ -e "$filename" ] || continue;
+    printf "\n    %s" "$filename";
+  done
+}
+
+function __finley.help {
+  cat << HEREDOC
+
+  Install poetry.
+
+  Usage: ${SCRIPT_NAME} [OPTIONS]
+
+  Commands:$(__finley.help.list_cmds)
+
+  Arguments:
+      -h, --help           show this help message and exit
+
+HEREDOC
+}
+
+while [[ "${1:-}" != "" ]]; do
+  case $1 in
+    --help | -h)
+      __finley.help; exit;
+      ;;
+    --quiet | -q)
+      __QUIET_SCRIPT="true";
+      shift;
+      ;;
+    *)
+      ERRORS+=("Unrecognized argument: $1");
+      EXIT_CODE=1;
+      shift;
+      ;;
+  esac
+done
+
+if [[ ${EXIT_CODE} -gt 0 ]]; then
+  oi::log.fatal "${SCRIPT_NAME}: Fatal error(s) detected exiting...";
+  for error_text in "${ERRORS[@]}"; do
+    oi::log.fatal "   ${error_text}";
+  done
+  oi::exit.error;
+fi
+
+__list_cmds

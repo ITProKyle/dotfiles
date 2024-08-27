@@ -4,7 +4,7 @@
 
 function oi::_help.list_functions {
   #
-  # Helper to generate a list of OI functions to provide in helo output.
+  # Helper to generate a list of OI functions to provide in help output.
   #
   local rv;
 

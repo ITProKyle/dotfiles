@@ -1,0 +1,15 @@
+#compdef finley
+# shellcheck shell=bash
+
+# Useful info:
+# - https://blog.mads-hartmann.com/2017/08/06/writing-zsh-completion-scripts.html
+# - https://unix.stackexchange.com/questions/239528/dynamic-zsh-autocomplete-for-custom-commands/240192#240192
+# - https://github.com/zsh-users/zsh-completions/blob/master/zsh-completions-howto.org
+
+function _finley {
+  _arguments -C \
+    "-h[show help information]" \
+    "--help[show help information]"
+}
+
+_finley "$@";
