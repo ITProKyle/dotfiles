@@ -19,3 +19,7 @@ name = "FiraCode Nerd Font Mono"
 [vscode]  # vscode settings
 
 [vscode.font]
+
+[work]
+email = "kyle.finley@wnco.com"
+hostname = "Mac-M7F25VXX"

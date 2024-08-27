@@ -1,22 +1,29 @@
 {{- /* boolean feature tags */ -}}
+{{- $chezmoiForce := or (has "--force" .chezmoi.args) (has "--force=true" .chezmoi.args) -}}
+{{- $interactive := and stdinIsATTY (not $chezmoiForce) -}}
 {{- $diff_pager := "" -}}{{/* default to no pager */}}
 {{- $docker := false -}}{{/* true if this machine should have Docker installed */}}
-{{- $is_codespace:= env "CODESPACES" | not | not -}}{{/* true if this machine is a GitHub Codespace */}}
-{{- $is_ephemeral := false -}}{{/* true if this machine is ephemeral, e.g. a cloud or VM instance */}}
-{{- $is_headless := false -}}{{/* true if this machine does not have a screen and keyboard */}}
 {{- $is_pi := false -}}{{- /* true if this machine is a raspberry pi */ -}}
 {{- $workstation_use := "personal" -}}
 {{- /* ========================= END OF DEFAULT VARIABLE ASSIGNMENT ========================= */ -}}
+{{- $gnome := lookPath "gnome-shell" | not | not -}}
+{{- $ubuntu := hasKey .chezmoi.osRelease "ubuntuCodename" -}}
+{{- $wsl := or (env "WSL_DISTRO_NAME") (env "IS_WSL") | not | not -}}
+{{/* true if this machine is a devcontainer or GitHub Codespace */}}
+{{- $is_devcontainer := or
+  (env "REMOTE_CONTAINERS")
+  (env "CODESPACES")
+  (env "VSCODE_REMOTE_CONTAINERS_SESSION")
+  (env "GITPOD_HOST")
+  (eq .chezmoi.username "vscode") | not | not
+-}}
+{{/* true if this machine does not have a screen and keyboard */}}
+{{- $is_headless := or $is_devcontainer (not (or (env "DISPLAY") (env "WAYLAND_DISPLAY"))) -}}
+{{- /* =================================== END OF OS INFO =================================== */ -}}
 
 {{- $osID := .chezmoi.os -}}
 {{- if (and (eq .chezmoi.os "linux") (hasKey .chezmoi.osRelease "id")) -}}
   {{- $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
-{{- end -}}
-
-{{- /* detect GitHub codespaces, vscode remote containers, Docker containers, Multipass VMs, and Vagrant boxes */ -}}
-{{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS_IPC") (eq .chezmoi.username "root" "ubuntu" "vagrant" "vscode") -}}
-  {{- $is_ephemeral = true -}}
-  {{- $is_headless = true -}}
 {{- end -}}
 
 {{- /* macOS Things */ -}}
@@ -24,7 +31,7 @@
   {{- $hostname := .chezmoi.hostname -}}
   {{- if eq .chezmoi.os "darwin" -}}
     {{- $computerName := output "scutil" "--get" "ComputerName" | trim -}}
-    {{- $hostname = $computerName -}}
+    {{- $hostname := $computerName -}}
     {{- $diff_pager = "diff-so-fancy" -}}
   {{- end -}}
 
@@ -35,49 +42,51 @@
     {{- end -}}
   {{- end -}}
 
-{{- if not $is_ephemeral -}}
-  {{- if eq $hostname "Mac-M7F25VXX" -}}{{/* work laptop */}}
-    {{- $docker = true -}}
-    {{- $workstation_use = "work" -}}
-  {{- else if stdinIsATTY -}}
-    {{- $is_ephemeral = promptBoolOnce . "sys.is_ephemeral" "Is this machine ephemeral (container, VM, etc)? [y|n]" true -}}
-    {{- $is_headless = promptBoolOnce . "sys.is_headless" "Is this machine headless (monitor/keyboard)? [y|n]" false -}}
-    {{- $workstation_use = promptStringOnce . "workstation_use" "What is this workstation used for (personal|work)" "personal" -}}
-    {{- if not $is_ephemeral -}}
-      {{- $docker = promptBoolOnce . "software.docker" "Should this machine have Docker installed? [y|n]" true -}}
-    {{- end -}}
-  {{- else -}}
-    {{- $is_ephemeral = true -}}
-    {{- $is_headless = true -}}
-  {{- end -}}
+{{- if eq $hostname "Mac-M7F25VXX" -}}{{/* work laptop */}}
+  {{- $docker = true -}}
+  {{- $workstation_use = "work" -}}
+{{- else if $interactive -}}
+  {{- $workstation_use = promptStringOnce . "workstation_use" "What is this workstation used for (personal|work)" "personal" -}}
+  {{- $docker = promptBoolOnce . "software.docker" "Should this machine have Docker installed? [y|n]" true -}}
 {{- end -}}
 
 {{- /* ================= END OF LOGIC - BELOW THIS LINE IS RENDERED OUTPUT ================== */ -}}
+# https://www.chezmoi.io/reference/configuration-file/variables/
 sourceDir = {{ .chezmoi.sourceDir | quote }}
 
 [data]  # data made available to templates
 workstation_use = {{ $workstation_use | quote }}  # personal or work
-
-[data.personal]  # information about me
-email = "kyle@finley.sh"
 
 [data.software]  # software config and toggles
 docker = {{ $docker }}
 
 [data.sys]  # system config, info, and toggles
 hostname = {{ $hostname | quote }}
-is_codespace = {{ $is_codespace }}
-is_ephemeral = {{ $is_ephemeral }}
+is_devcontainer = {{ $is_devcontainer }}
+is_gnome = {{ $gnome }}
 is_headless = {{ $is_headless }}
 is_pi = {{ $is_pi }}
-osID = {{ $osID | quote }}
-
-[data.work]  # info about work
-email = "kyle.finley@wnco.com"
+is_ubuntu = {{ $ubuntu }}
+is_wsl = {{ $wsl }}
+os_id = {{ $osID | quote }}
+uname_arch = {{ output "uname" "-m" | trim | quote }}
 
 [diff]
 pager = {{ $diff_pager | quote }}
 
 [edit]
-command = "code"
 args = ["--wait"]
+command = "code"
+
+[github]
+refreshPeriod = "1m"
+
+[hooks]
+
+[status]
+exclude = ["always"]
+
+[template]
+options = [
+  "missingkey=error",
+]
