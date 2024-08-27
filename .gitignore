@@ -2,3 +2,4 @@
 .venv/
 Brewfile
 node_modules/
+tmp/

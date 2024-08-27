@@ -1,6 +1,21 @@
-[name]
+[dirs]  # global directories
+fonts = ".local/share/fonts"
+omzsh = ".oh-my-zsh"
+omzshPlugins = ".oh-my-zsh/custom/plugins"
+
+[name]  # components of my name
 first = "Kyle"
 last = "Finley"
 
-[personal]
+[personal]  # personal info
 email = "kyle@finley.sh"
+
+[terminal]  # terminal settings
+
+[terminal.font]
+fileName = "FiraCodeNerdFontMono-Regular.ttf"
+name = "FiraCode Nerd Font Mono"
+
+[vscode]  # vscode settings
+
+[vscode.font]

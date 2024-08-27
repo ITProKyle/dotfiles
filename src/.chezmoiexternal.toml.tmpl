@@ -1,55 +1,75 @@
-{{ if ne .chezmoi.os "windows" }}
+{{- /* "chezmoi" is present as work around for https://github.com/twpayne/chezmoi/discussions/1724 */ -}}
+{{- $cache := dict "chezmoi" .chezmoi -}}
+{{- $github := "https://github.com" -}}
+
+{{- template "read-versions-and-revisions-cache" $cache -}}
+
+{{- if ne .chezmoi.os "windows" -}}
 [".local/bin/age"]
 type = "archive-file"
-url = "https://github.com/FiloSottile/age/releases/download/v1.2.0/age-v1.2.0-{{ .chezmoi.os }}-{{ .chezmoi.arch }}.tar.gz"
+{{- $ageRepo := "FiloSottile/age" -}}
+{{ $ageVersion := includeTemplate "get-github-latest-version" (list $ageRepo $cache) }}
+url = "{{ $github }}/{{ $ageRepo }}/releases/download/v{{ $ageVersion }}/age-v{{ $ageVersion }}-{{ .chezmoi.os }}-{{ .chezmoi.arch }}.tar.gz"
 path = "age/age"
 
-[".oh-my-zsh"]
+["{{ .dirs.omzsh }}"]
 type = "archive"
-url = "https://github.com/ohmyzsh/ohmyzsh/archive/master.tar.gz"
-exact = true
+{{- $ohMyZshRepo := "ohmyzsh/ohmyzsh" -}}
+{{ $ohMyZshRevision := includeTemplate "get-github-head-revision" (list $ohMyZshRepo $cache) }}
+url = "{{ $github }}/{{ $ohMyZshRepo }}/archive/{{ $ohMyZshRevision }}.tar.gz"
 stripComponents = 1
-refreshPeriod = "12h"
 
-[".oh-my-zsh/custom/plugins/autoupdate"]
+["{{ .dirs.omzshPlugins }}/autoupdate"]
 type = "archive"
-url = "https://github.com/TamCore/autoupdate-oh-my-zsh-plugins/archive/master.tar.gz"
+{{- $autoupdateRepo := "TamCore/autoupdate-oh-my-zsh-plugins" -}}
+{{ $autoupdateRevision := includeTemplate "get-github-head-revision" (list $autoupdateRepo $cache) }}
+url = "{{ $github }}/{{ $autoupdateRepo }}/archive/{{ $autoupdateRevision }}.tar.gz"
 exact = true
 stripComponents = 1
-refreshPeriod = "12h"
 
-[".oh-my-zsh/custom/plugins/evalcache"]
+["{{ .dirs.omzshPlugins }}/evalcache"]
 type = "archive"
-url = "https://github.com/mroth/evalcache/archive/master.tar.gz"
+{{- $evalcacheRepo := "mroth/evalcache" -}}
+{{ $evalcacheRevision := includeTemplate "get-github-head-revision" (list $evalcacheRepo $cache) }}
+url = "{{ $github }}/{{ $evalcacheRepo }}/archive/{{ $evalcacheRevision }}.tar.gz"
 exact = true
 stripComponents = 1
-refreshPeriod = "12h"
 
-[".oh-my-zsh/custom/plugins/git-open"]
+["{{ .dirs.omzshPlugins }}/git-open"]
 type = "archive"
-url = "https://github.com/paulirish/git-open/archive/master.tar.gz"
+{{- $gitOpenRepo := "paulirish/git-open" -}}
+{{ $gitOpenRevision := includeTemplate "get-github-head-revision" (list $gitOpenRepo $cache) }}
+url = "{{ $github }}/{{ $gitOpenRepo }}/archive/{{ $gitOpenRevision }}.tar.gz"
 exact = true
 stripComponents = 1
-refreshPeriod = "12h"
 
-[".oh-my-zsh/custom/plugins/zsh-autosuggestions"]
+["{{ .dirs.omzshPlugins }}/zsh-autosuggestions"]
 type = "archive"
-url = "https://github.com/zsh-users/zsh-autosuggestions/archive/master.tar.gz"
+{{- $zshAutosuggestionsRepo := "zsh-users/zsh-autosuggestions" -}}
+{{ $zshAutosuggestionsRevision := includeTemplate "get-github-head-revision" (list $zshAutosuggestionsRepo $cache) }}
+url = "{{ $github }}/{{ $zshAutosuggestionsRepo }}/archive/{{ $zshAutosuggestionsRevision }}.tar.gz"
 exact = true
 stripComponents = 1
-refreshPeriod = "12h"
 
-[".oh-my-zsh/custom/plugins/zsh-syntax-highlighting"]
+["{{ .dirs.omzshPlugins }}/zsh-syntax-highlighting"]
 type = "archive"
-url = "https://github.com/zsh-users/zsh-syntax-highlighting/archive/master.tar.gz"
+{{- $zshSyntaxHighlightingRepo := "zsh-users/zsh-syntax-highlighting" -}}
+{{ $zshSyntaxHighlightingRevision := includeTemplate "get-github-head-revision" (list $zshSyntaxHighlightingRepo $cache) }}
+url = "{{ $github }}/{{ $zshSyntaxHighlightingRepo }}/archive/{{ $zshSyntaxHighlightingRevision }}.tar.gz"
 exact = true
 stripComponents = 1
-refreshPeriod = "12h"
 
-[".oh-my-zsh/custom/plugins/zshrc.d"]
+["{{ .dirs.omzshPlugins }}/zshrc.d"]
 type = "archive"
-url = "https://github.com/mattmc3/zshrc.d/archive/master.tar.gz"
+{{- $zshrcdRepo := "mattmc3/zshrc.d" -}}
+{{ $zshrcdRevision := includeTemplate "get-github-head-revision" (list $zshrcdRepo $cache) }}
+url = "{{ $github }}/{{ $zshrcdRepo }}/archive/{{ $zshrcdRevision }}.tar.gz"
 exact = true
 stripComponents = 1
-refreshPeriod = "12h"
-{{ end }}
+{{- end -}}
+
+{{- $nerdFontsRepo := "ryanoasis/nerd-fonts" -}}
+{{ $nerdFontsVersion := includeTemplate "get-github-latest-version" (list $nerdFontsRepo $cache) }}
+["{{ joinPath .dirs.fonts .terminal.font.fileName }}"]
+type = "file"
+url = "https://raw.githubusercontent.com/{{ $nerdFontsRepo }}/v{{ $nerdFontsVersion }}/patched-fonts/FiraCode/Regular/{{ .terminal.font.fileName }}"
