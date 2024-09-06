@@ -16,3 +16,6 @@ indent_style = tab
 
 [{cdk,package,package-lock,tsconfig,tslint}.json]
 indent_size = 2
+
+[src/dot_config/git/config.tmpl]
+indent_style = tab

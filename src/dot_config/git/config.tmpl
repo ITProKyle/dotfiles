@@ -1,0 +1,45 @@
+# Docs available at https://git-scm.com/docs/git-config#Documentation/git-config.txt
+
+[alias]
+	hash = "rev-parse --short=8 HEAD"
+	krak = !open "gitkraken://repo$(cd "${GIT_PREFIX:-.}/${1:-.}" && git rev-parse --show-toplevel); :"
+	reset-perm = "!git diff -p --no-ext-diff --no-color --diff-filter d  | grep -E \"^(diff|old mode|new mode)\" | sed -e \"s/^old/NEW/;s/^new/old/;s/^NEW/new/\" | git apply"
+[branch]
+	autoSetupRebase = always
+[checkout]
+	defaultRemote = origin
+[clone]
+	defaultRemoteName = origin
+[commit]
+	# cleanup = verbatim
+	gpgSign = {{ .software.git.gpgSign }}
+[core]
+	editor = code -n --wait
+	pager = bat --style=plain
+[fetch]
+	prune = true
+	pruneTags = false
+	output = full  # compact or full
+[gpg]
+	program = /usr/local/bin/gpg
+[help]
+	format = man
+[init]
+	defaultBranch = master
+[push]
+	default = current
+[rebase]
+	autoStash = true
+[stash]
+	showStat = true
+[status]
+	branch = true
+	aheadBehind = true
+	showStash = true
+	showUntrackedFiles = normal
+[tag]
+	forceSignAnnotated = true
+	gpgSign = {{ .software.git.gpgSign }}
+[user]
+	email = {{ .personal.email }}
+	name = {{ .name.first }} {{ .name.last }}

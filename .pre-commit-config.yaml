@@ -23,7 +23,8 @@ repos:
         files: |
           (?x)^(
             \.chezmoiignore|
-            \.gitignore
+            \.gitignore|
+            src/dot_config/git/ignore
           )$
       - id: pretty-format-json
         args: [--autofix, --indent, '4']

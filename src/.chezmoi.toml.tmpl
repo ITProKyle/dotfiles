@@ -3,7 +3,8 @@
 {{- $interactive := and stdinIsATTY (not $chezmoiForce) -}}
 {{- $diff_pager := "" -}}{{/* default to no pager */}}
 {{- $docker := false -}}{{/* true if this machine should have Docker installed */}}
-{{- $is_pi := false -}}{{- /* true if this machine is a raspberry pi */ -}}
+{{- $gpgSign := false -}}{{/* use gpg to sign commits */}}
+{{- $is_pi := false -}}{{/* true if this machine is a raspberry pi */}}
 {{- $workstation_use := "personal" -}}
 {{- /* ========================= END OF DEFAULT VARIABLE ASSIGNMENT ========================= */ -}}
 {{- $gnome := lookPath "gnome-shell" | not | not -}}
@@ -20,6 +21,12 @@
 {{/* true if this machine does not have a screen and keyboard */}}
 {{- $is_headless := or $is_devcontainer (not (or (env "DISPLAY") (env "WAYLAND_DISPLAY"))) -}}
 {{- /* =================================== END OF OS INFO =================================== */ -}}
+
+{{- if $interactive -}}
+  {{- $gpgSign = promptBoolOnce . "software.git.gpgSign" "Use gpg to sign commits? [y|n]" (not $is_headless | not) -}}
+{{- else -}}
+  {{- $gpgSign = not $is_headless | not -}}{{/* use gqg to sign git commits */}}
+{{- end -}}
 
 {{- $osID := .chezmoi.os -}}
 {{- if (and (eq .chezmoi.os "linux") (hasKey .chezmoi.osRelease "id")) -}}
@@ -59,6 +66,9 @@ workstation_use = {{ $workstation_use | quote }}  # personal or work
 
 [data.software]  # software config and toggles
 docker = {{ $docker }}
+
+[data.software.git]
+gpgSign = {{ $gpgSign }}
 
 [data.sys]  # system config, info, and toggles
 hostname = {{ $hostname | quote }}
