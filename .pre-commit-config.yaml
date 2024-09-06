@@ -43,6 +43,10 @@ repos:
     rev: v0.23.1
     hooks:
       - id: toml-sort-fix
+        exclude: |
+          (?x)^(
+            src/dot_config/private_atuin/private_config\.toml
+          )
   - repo: https://github.com/ITProKyle/pre-commit-hook-yamlfmt
     rev: v0.3.0
     hooks:
