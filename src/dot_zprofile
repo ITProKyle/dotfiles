@@ -2,7 +2,7 @@
 #
 # Loaded at user login.
 
-emulate sh -c 'source "${HOME}/.profile"'
+emulate sh -c "source ${HOME}/.profile"
 
 if [[ "${__FINLEY_OS}" == "darwin" ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)";
@@ -26,9 +26,13 @@ fi
 # nvm setup
 export NVM_DIR="$HOME/.nvm"
 if [[ "${__FINLEY_OS}" == "darwin" ]]; then
+  # shellcheck disable=SC1091
   [ -s "${HOMEBREW_PREFIX}/opt/nvm/nvm.sh" ] && \. "${HOMEBREW_PREFIX}/opt/nvm/nvm.sh"  # This loads nvm
+  # shellcheck disable=SC1091
   [ -s "${HOMEBREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm" ] && \. "${HOMEBREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 elif [[ "${__FINLEY_OS}" == "linux" ]]; then
+  # shellcheck disable=SC1091
   [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh"  # This loads nvm
+  # shellcheck disable=SC1091
   [ -s "${NVM_DIR}nvm/etc/bash_completion.d/nvm" ] && \. "${NVM_DIR}/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 fi

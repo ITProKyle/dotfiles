@@ -7,6 +7,24 @@ on:
       - master
 
 jobs:
+  shellcheck:
+    name: Shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⤵️ Check out code from GitHub
+        uses: actions/checkout@v4
+      - name: 🚀 Run Shellcheck
+        uses: ludeeus/action-shellcheck@2.0.0  # cspell:words ludeeus
+        env:
+          SHELLCHECK_OPTS: -s bash
+        with:
+          additional_files: >-
+            direnvrc
+            executable_*
+            *.zsh-theme
+            dot_profile
+            dot_zprofile
+            dot_zshrc
   spellcheck:
     uses: finleyfamily/workflows/.github/workflows/spellcheck.yml@master
     with:

@@ -1,6 +1,6 @@
 # dotfiles
 
-[![on push](https://github.com/ITProKyle/dotfiles/actions/workflows/on-push.yml/badge.svg)](https://github.com/ITProKyle/dotfiles/actions/workflows/on-push.yml)
+[![CI](https://github.com/ITProKyle/dotfiles/actions/workflows/ci.yml/badge.svg)](https://github.com/ITProKyle/dotfiles/actions/workflows/ci.yml)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
 [![renovate](https://img.shields.io/badge/enabled-brightgreen?logo=renovatebot&logoColor=%2373afae&label=renovate)](https://developer.mend.io/github/ITProKyle/dotfiles)
 

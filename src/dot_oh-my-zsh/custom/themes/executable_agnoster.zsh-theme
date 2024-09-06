@@ -31,7 +31,7 @@
 CURRENT_BG='NONE'
 
 # Special Powerline characters
-
+# shellcheck disable=SC1072,SC1073
 () {
   local LC_ALL="" LC_CTYPE="en_US.UTF-8"
   # NOTE: This segment separator character is correct.  In 2012, Powerline changed

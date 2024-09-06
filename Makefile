@@ -30,6 +30,9 @@ home: ## equivalent to "chezmoi apply"
 lint: ## run all linters
 	@echo "no linters configured for this project"
 
+lint-shellcheck: ## runs shellcheck using act
+	@act --job shellcheck
+
 run-pre-commit: ## run pre-commit for all files
 	@poetry run pre-commit run $(PRE_COMMIT_OPTS) \
 		--all-files \
