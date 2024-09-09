@@ -32,7 +32,7 @@ function __finley::uninstall.poetry {
   if [[ -z "$(command -v poetry)" ]]; then
     oi::log.notice "poetry not installed";
   else
-    pipx uninstall poetry;
+    python -m pipx uninstall poetry;
   fi
 }
 
