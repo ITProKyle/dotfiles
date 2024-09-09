@@ -58,7 +58,7 @@ while [[ "${1:-}" != "" ]]; do
 done
 
 if [[ ${EXIT_CODE} -gt 0 ]]; then
-  oi::log.fatal "${SCRIPT_NAME}: Fatal error(s) detected exiting...";
+  oi::log.fatal "${SCRIPT_NAME}: Fatal error(s) detected:";
   for error_text in "${ERRORS[@]}"; do
     oi::log.fatal "   ${error_text}";
   done

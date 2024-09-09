@@ -8,6 +8,7 @@ SCRIPT_NAME=$(basename "$SCRIPT_PATH")
 EXIT_CODE=0;
 ERRORS=();
 
+__PYTHON_EXE="python";
 __QUIET_SCRIPT="";
 __RESTORE_BACKUP="false";
 
@@ -19,8 +20,9 @@ function __finley::install.poetry.help {
   Usage: ${SCRIPT_NAME} [OPTIONS]
 
   Arguments:
-      -h, --help           show this help message and exit
-      -q, --quiet          suppress some output
+      -h, --help           show this help message and exit.
+      --python <python>    run pipx with the specified python interpreter.
+      -q, --quiet          suppress some output.
       -r, --restore        restore poetry config from a pre-determiend
                            backup location.
 
@@ -32,8 +34,8 @@ function __finley::install.poetry {
 
   if [[ -z "$(command -v poetry)" ]]; then
     oi::log.notice "poetry not found! installing it now...";
-    python -m pipx install poetry;
-    python -m pipx inject poetry "poetry-dynamic-versioning[plugin]" poetry-plugin-export;
+    "${__PYTHON_EXE}" -m pipx install poetry;
+    "${__PYTHON_EXE}" -m pipx inject poetry "poetry-dynamic-versioning[plugin]" poetry-plugin-export --force;
     oi::log.success "poetry has been successfully installed!";
 
     if [[ -z "$(command -v poetry)" ]]; then
@@ -43,9 +45,7 @@ function __finley::install.poetry {
     fi
 
   else
-    if [[ -n "${__QUIET_SCRIPT}" ]]; then
-      oi::log.info "poetry is already installed";
-    fi
+    oi::log.info "poetry is already installed";
   fi
 
   if [[ "${__RESTORE_BACKUP}" == "true" ]]; then
@@ -57,6 +57,18 @@ while [[ "${1:-}" != "" ]]; do
   case $1 in
     --help | -h)
       __finley::install.poetry.help; exit;
+      ;;
+    --python)
+      shift;
+      __PYTHON_EXE="${1:-}";
+      if [[ ! -f "${__PYTHON_EXE}" ]]; then
+        # shellcheck disable=SC2206
+        ERRORS+=("Executable provided as \"--python ${__PYTHON_EXE}\" must be a file");
+        EXIT_CODE=1;
+      else
+        oi::log.debug "will use ${__PYTHON_EXE} to install poetry";
+      fi
+      shift;
       ;;
     --quiet | -q)
       __QUIET_SCRIPT="--quiet";
@@ -75,7 +87,7 @@ while [[ "${1:-}" != "" ]]; do
 done
 
 if [[ ${EXIT_CODE} -gt 0 ]]; then
-  oi::log.fatal "${SCRIPT_NAME}: Fatal error(s) detected exiting...";
+  oi::log.fatal "${SCRIPT_NAME}: Fatal error(s) detected:";
   for error_text in "${ERRORS[@]}"; do
     oi::log.fatal "   ${error_text}";
   done
