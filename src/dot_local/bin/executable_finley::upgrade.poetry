@@ -1,0 +1,72 @@
+#! /usr/bin/env oi
+# shellcheck shell=bash
+
+# shellcheck disable=SC2296
+SCRIPT_PATH="${(%):-%x}";  # special zsh syntax
+SCRIPT_NAME=$(basename "$SCRIPT_PATH")
+
+EXIT_CODE=0;
+ERRORS=();
+
+__PYTHON_EXE="";
+
+function __finley::upgrade.poetry.help {
+  cat << HEREDOC
+
+  Upgrade poetry to the latest version, using the latest version of Python.
+
+  Usage: ${SCRIPT_NAME} [OPTIONS]
+
+  Arguments:
+      -h, --help           show this help message and exit.
+      --python <python>    run pipx with the specified python interpreter.
+
+HEREDOC
+}
+
+function __finley::upgrade.poetry {
+  local install_args;
+
+  install_args=("--restore");
+  if [[ -n "${__PYTHON_EXE}" ]]; then
+    install_args+=("--python" "${__PYTHON_EXE}");
+  fi
+
+  finley::uninstall.poetry;
+  finley::install.poetry "${install_args[@]}";
+}
+
+while [[ "${1:-}" != "" ]]; do
+  case $1 in
+    --help | -h)
+      __finley::upgrade.poetry.help; exit;
+      ;;
+    --python)
+      shift;
+      __PYTHON_EXE="${1:-}";
+      if [[ ! -f "${__PYTHON_EXE}" ]]; then
+        # shellcheck disable=SC2206
+        ERRORS+=("Executable provided as \"--python ${__PYTHON_EXE}\" must be a file");
+        EXIT_CODE=1;
+      else
+        oi::log.debug "will use ${__PYTHON_EXE} to upgrade poetry";
+      fi
+      shift;
+      ;;
+    *)
+      ERRORS+=("Unrecognized argument: $1");
+      EXIT_CODE=1;
+      shift;
+      ;;
+  esac
+done
+
+if [[ ${EXIT_CODE} -gt 0 ]]; then
+  oi::log.fatal "${SCRIPT_NAME}: Fatal error(s) detected:";
+  for error_text in "${ERRORS[@]}"; do
+    oi::log.fatal "   ${error_text}";
+  done
+  oi::exit.error;
+fi
+
+__finley::upgrade.poetry;
