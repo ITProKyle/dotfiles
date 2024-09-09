@@ -8,7 +8,8 @@ SCRIPT_NAME=$(basename "$SCRIPT_PATH")
 EXIT_CODE=0;
 ERRORS=();
 
-__QUIET_SCRIPT="false";
+__QUIET_SCRIPT="";
+__RESTORE_BACKUP="false";
 
 function __finley::install.poetry.help {
   cat << HEREDOC
@@ -20,6 +21,8 @@ function __finley::install.poetry.help {
   Arguments:
       -h, --help           show this help message and exit
       -q, --quiet          suppress some output
+      -r, --restore        restore poetry config from a pre-determiend
+                           backup location.
 
 HEREDOC
 }
@@ -40,9 +43,13 @@ function __finley::install.poetry {
     fi
 
   else
-    if [[ "${__QUIET_SCRIPT}" != "true" ]]; then
-      oi::log.info "poetry is already installed" green dim;
+    if [[ -n "${__QUIET_SCRIPT}" ]]; then
+      oi::log.info "poetry is already installed";
     fi
+  fi
+
+  if [[ "${__RESTORE_BACKUP}" == "true" ]]; then
+    finley::restore.poetry ${__QUIET_SCRIPT};
   fi
 }
 
@@ -52,7 +59,11 @@ while [[ "${1:-}" != "" ]]; do
       __finley::install.poetry.help; exit;
       ;;
     --quiet | -q)
-      __QUIET_SCRIPT="true";
+      __QUIET_SCRIPT="--quiet";
+      shift;
+      ;;
+    --restore | -r)
+      __RESTORE_BACKUP="true";
       shift;
       ;;
     *)

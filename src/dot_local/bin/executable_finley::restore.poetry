@@ -10,10 +10,10 @@ BACKUP_DIR="${HOME}/.config/pypoetry"
 EXIT_CODE=0;
 ERRORS=();
 
-function __finley::backup.poetry.help {
+function __finley::restore.poetry.help {
   cat << HEREDOC
 
-  Backup poetry configuration files to a safe location.
+  Restore poetry configuration files from their backup location.
   This is required when reinstalling poetry if any customizations have been made
   as they will not be retained.
 
@@ -25,23 +25,26 @@ function __finley::backup.poetry.help {
 HEREDOC
 }
 
+function __finley::restore.poetry {
+  local file_name restore_dir file_path;
 
-function __finley::backup.poetry {
-  local file_name file_path;
+  oi::log.info "restoring poetry config files...";
 
-  oi::log.info "backing up poetry config files...";
+  if [[ "${__FINLEY_OS}" == "darwin" ]]; then
+    restore_dir="${POETRY_HOME_MACOS}";
+  else
+    restore_dir="${POETRY_HOME_LINUX}";
+  fi
+  mkdir -p "${restore_dir}";
 
-  mkdir -p "${BACKUP_DIR}";
   for file_name in "auth.toml" "config.toml"; do
-    if [[ "${__FINLEY_OS}" == "darwin" ]]; then
-      file_path="${POETRY_HOME_MACOS}/${file_name}"
-    else
-      file_path="${POETRY_HOME_LINUX}/${file_name}"
-    fi
+    file_path="${restore_dir}/${file_name}"
 
-    if [[ -f "${file_path}" ]]; then
-      cp "${file_path}" "${BACKUP_DIR}/${file_name}";
-      oi::log.success "backed up \"${file_name}\" to \"${BACKUP_DIR}\"";
+    if [[ -f "${BACKUP_DIR}/${file_name}" ]]; then
+      cp "${BACKUP_DIR}/${file_name}" "${file_path}";
+      oi::log.success "restored \"${BACKUP_DIR}\" to \"${file_name}\"";
+    else
+      oi::log.warning "no backup for ${file_name} found";
     fi
   done
 }
@@ -49,7 +52,7 @@ function __finley::backup.poetry {
 while [[ "${1:-}" != "" ]]; do
   case $1 in
     --help | -h)
-      __finley::backup.poetry.help; oi::exit.ok "nothing to do";
+      __finley::restore.poetry.help; oi::exit.ok "nothing to do";
       ;;
     *)
       ERRORS+=("Unrecognized argument: $1");
@@ -67,4 +70,4 @@ if [[ ${EXIT_CODE} -gt 0 ]]; then
   oi::exit.error;
 fi
 
-__finley::backup.poetry;
+__finley::restore.poetry;

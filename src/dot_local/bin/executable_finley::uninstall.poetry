@@ -1,0 +1,64 @@
+#! /usr/bin/env oi
+# shellcheck shell=bash
+
+# shellcheck disable=SC2296
+SCRIPT_PATH="${(%):-%x}";  # special zsh syntax
+SCRIPT_NAME=$(basename "$SCRIPT_PATH")
+
+EXIT_CODE=0;
+ERRORS=();
+
+__NO_BACKUP="false";
+
+function __finley::uninstall.poetry.help {
+  cat << HEREDOC
+
+  Uninstall poetry.
+
+  Usage: ${SCRIPT_NAME} [OPTIONS]
+
+  Arguments:
+      -h, --help           show this help message and exit
+      --no-backup          skip backing up poetry config prior to uninstall
+
+HEREDOC
+}
+
+function __finley::uninstall.poetry {
+  if [[ "${__NO_BACKUP}" != "true" ]]; then
+    finley::backup.poetry;
+  fi
+
+  if [[ -z "$(command -v poetry)" ]]; then
+    oi::log.notice "poetry not installed";
+  else
+    pipx uninstall poetry;
+  fi
+}
+
+while [[ "${1:-}" != "" ]]; do
+  case $1 in
+    --help | -h)
+      __finley::uninstall.poetry.help; exit;
+      ;;
+    --no-backup)
+      __NO_BACKUP="true";
+      shift
+      ;;
+    *)
+      ERRORS+=("Unrecognized argument: $1");
+      EXIT_CODE=1;
+      shift;
+      ;;
+  esac
+done
+
+if [[ ${EXIT_CODE} -gt 0 ]]; then
+  oi::log.fatal "${SCRIPT_NAME}: Fatal error(s) detected exiting...";
+  for error_text in "${ERRORS[@]}"; do
+    oi::log.fatal "   ${error_text}";
+  done
+  oi::exit.error;
+fi
+
+__finley::uninstall.poetry;
