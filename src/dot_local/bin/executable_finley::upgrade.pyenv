@@ -1,0 +1,68 @@
+#! /usr/bin/env oi
+# shellcheck shell=bash
+
+# shellcheck disable=SC2296
+SCRIPT_PATH="${(%):-%x}";  # special zsh syntax
+SCRIPT_NAME=$(basename "$SCRIPT_PATH")
+
+EXIT_CODE=0;
+ERRORS=();
+
+function __finley::upgrade.pyenv.help {
+  cat << HEREDOC
+
+  Upgrade python dependencies for pyenv Python installs.
+
+  Usage: ${SCRIPT_NAME} [OPTIONS]
+
+  Arguments:
+      -h, --help           show this help message and exit.
+
+HEREDOC
+}
+
+function __finley::upgrade.pyenv {
+  local packages pyenvs;
+
+  pyenvs=("${(@f)$(pyenv versions --bare --skip-aliases)}")
+  oi::log.info "pyenvs to update: ${pyenvs[*]}"
+
+  for pyenv_to_update in "${pyenvs[@]}"; do
+    oi::log.info "updating packages for '${pyenv_to_update}'...";
+    PYENV_VERSION="${pyenv_to_update}" python -m pip install --upgrade pip;
+    PYENV_VERSION="${pyenv_to_update}" python -m pip install --upgrade wheel;
+    packages=(
+      "${(@f)$(PYENV_VERSION="${pyenv_to_update}" python -m pip --disable-pip-version-check list --outdated --format=json | \
+      PYENV_VERSION="${pyenv_to_update}" python -c "import json, sys; print('\n'.join([x['name'] for x in json.load(sys.stdin)]))")}"
+    )
+    if [[ -n "${packages[*]}" ]]; then
+      PYENV_VERSION="${pyenv_to_update}" python -m pip install --upgrade "${packages[@]}";
+      oi::log.success "all packages are now up to date";
+    else
+      oi::log.success "all packages are already up to date";
+    fi
+  done
+}
+
+while [[ "${1:-}" != "" ]]; do
+  case $1 in
+    --help | -h)
+      __finley::upgrade.pyenv.help; exit;
+      ;;
+    *)
+      ERRORS+=("Unrecognized argument: $1");
+      EXIT_CODE=1;
+      shift;
+      ;;
+  esac
+done
+
+if [[ ${EXIT_CODE} -gt 0 ]]; then
+  oi::log.fatal "${SCRIPT_NAME}: Fatal error(s) detected:";
+  for error_text in "${ERRORS[@]}"; do
+    oi::log.fatal "   ${error_text}";
+  done
+  oi::exit.error;
+fi
+
+__finley::upgrade.pyenv;
