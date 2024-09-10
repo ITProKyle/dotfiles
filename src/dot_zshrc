@@ -107,8 +107,14 @@ function show_virtual_env {
 PS1='$(show_virtual_env)'$PS1;
 
 # https://github.com/zsh-users/zsh-syntax-highlighting
-# shellcheck disable=SC1091
-source "${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" || true;
+if [[ -n "${HOMEBREW_PREFIX}" ]]; then
+  # shellcheck disable=SC1091
+  source "${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" || true;
+else
+  # path for most Linux distributions (except perhaps NixOS)
+  # shellcheck disable=SC1091
+  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh || true;
+fi
 
 if ! command -v atuin; then
   PATH="${PATH}:${HOME}/.atuin/bin";
