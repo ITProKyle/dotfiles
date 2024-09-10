@@ -16,8 +16,7 @@ autoload -U +X bashcompinit && bashcompinit;
 # shellcheck disable=SC2034
 ZSH_THEME="agnoster";
 
-zstyle ':omz:update' mode reminder;  # remind me to update when it's time
-zstyle ':omz:update' frequency 13;
+zstyle ':omz:update' mode disabled;  # disable update check
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -96,15 +95,6 @@ function lk {
   # https://github.com/antonmedv/walk
   cd "$(walk --icons "$@")" || return;
 }
-
-# https://github.com/direnv/direnv/wiki/Python#zsh
-setopt PROMPT_SUBST;
-function show_virtual_env {
-  if [[ -n "${VIRTUAL_ENV}" && -n "${DIRENV_DIR}" ]]; then
-    echo "($(basename "${VIRTUAL_ENV}"))";
-  fi
-}
-PS1='$(show_virtual_env)'$PS1;
 
 # https://github.com/zsh-users/zsh-syntax-highlighting
 if [[ -n "${HOMEBREW_PREFIX}" ]]; then
