@@ -106,7 +106,8 @@ function install_chezmoi {
     init_chezmoi_devcontainer "${chezmoi}";
   else
     if [[ ! -d "${HOME}/.local/share/chezmoi" ]]; then
-      "${chezmoi}" init "${git_repo}" --apply --ssh;
+      # has to be HTTPS as the system likely won't have an SSH key. SSH requires auth.
+      "${chezmoi}" init "${git_repo}" --apply;
     else
       echo "not running 'chezmoi init' as it is already initalized.";
       echo "it can be run manually if desired.";
