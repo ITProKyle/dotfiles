@@ -21,7 +21,7 @@ function __finley::install.poetry.help {
   Arguments:
       -h, --help           show this help message and exit.
       --python <python>    run pipx with the specified python interpreter.
-      -r, --restore        restore poetry config from a pre-determiend
+      -r, --restore        restore poetry config from a pre-determined
                            backup location.
 
 HEREDOC

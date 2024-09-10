@@ -41,21 +41,27 @@ Host truenas
   User admin
   IdentityFile ~/.ssh/kyle.finley
 
-Host turingpi turingpi.local
+Host tpi tpi1 turingpi turingpi-01 turingpi-01.local
+  HostName 10.0.1.10
+  RemoteForward 48969 127.0.0.1:48969
+  User root
+  IdentityFile ~/.ssh/kyle.finley
+
+Host tpi2 turingpi-02 turingpi-02.local
   HostName 10.0.1.20
   RemoteForward 48969 127.0.0.1:48969
   User root
   IdentityFile ~/.ssh/kyle.finley
 
-Host turing?-node?
+Host tpi?-node?
   RemoteForward 48969 127.0.0.1:48969
   IdentityFile ~/.ssh/kyle.finley
 
-Host turing0-node1
+Host tpi2-node1
   HostName 10.0.1.21
-  User dietpi
+  User kyle
 
-Host turing0-node3
+Host tpi2-node3
   User kyle
   HostName 10.0.1.23
 

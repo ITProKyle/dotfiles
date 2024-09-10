@@ -10,15 +10,16 @@
     "version": "0.2",
     "words": [
         "Nlsv",
-        "direnvrc",
         "clmv",
+        "direnvrc",
         "glyv",
         "icnv",
         "lsregister",
         "ltcl",
-        "mdls",
-        "tmpl",
         "mattmc",
-        "mroth"
+        "mdls",
+        "mroth",
+        "pyenvs",
+        "tmpl"
     ]
 }
