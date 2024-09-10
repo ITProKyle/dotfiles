@@ -48,7 +48,7 @@ plugins=(
 # shellcheck disable=SC1091
 source "${ZSH}/oh-my-zsh.sh";
 # shellcheck disable=SC1091
-source "${HOMEBREW_PREFIX}/opt/git-extras/share/git-extras/git-extras-completion.zsh" || true;
+source "${HOMEBREW_PREFIX}/opt/git-extras/share/git-extras/git-extras-completion.zsh" >/dev/null 2>&1 || true;
 
 _evalcache direnv hook zsh;
 
