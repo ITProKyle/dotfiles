@@ -116,7 +116,7 @@ else
   source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh || true;
 fi
 
-if ! command -v atuin; then
+if ! command -v atuin >/dev/null 2>&1; then
   PATH="${PATH}:${HOME}/.atuin/bin";
 fi
 # https://docs.atuin.sh/guide/installation/
