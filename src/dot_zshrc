@@ -110,6 +110,9 @@ PS1='$(show_virtual_env)'$PS1;
 # shellcheck disable=SC1091
 source "${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" || true;
 
+if ! command -v atuin; then
+  PATH="${PATH}:${HOME}/.atuin/bin";
+fi
 # https://docs.atuin.sh/guide/installation/
 eval "$(atuin init zsh)" || echo "atuin not installed. install it to sync history.";
 
