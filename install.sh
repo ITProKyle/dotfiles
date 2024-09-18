@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /usr/bin/env bash
 #
 # Primarily for Codespaces and devcontainers but can be used to aid in bootstrapping tools on any system.
 #
@@ -9,7 +9,7 @@ __OI_EXIT_OK=0
 __OI_EXIT_NOK=1
 
 
-function var_equals() {
+function var_equals {
   #
   # Checks if a value equals.
   #
