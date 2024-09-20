@@ -9,16 +9,18 @@
     "maxNumberOfProblems": 100,
     "version": "0.2",
     "words": [
-        "Nlsv",
+        "ccache",
         "clmv",
         "direnvrc",
         "glyv",
         "icnv",
+        "libncurses",
         "lsregister",
         "ltcl",
         "mattmc",
         "mdls",
         "mroth",
+        "Nlsv",
         "pyenvs",
         "tmpl"
     ]

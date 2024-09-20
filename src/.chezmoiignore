@@ -17,6 +17,7 @@
 # Linux & macOS files
 {{ if (and (ne .chezmoi.os "darwin") (ne .chezmoi.os "linux")) }}
 **/*.zwc
+.chezmoiscripts/shell/**
 .local/**
 .oh-my-zsh/cache
 .zprofile

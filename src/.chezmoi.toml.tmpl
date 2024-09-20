@@ -82,7 +82,11 @@ os_id = {{ $osID | quote }}
 uname_arch = {{ output "uname" "-m" | trim | quote }}
 
 [diff]
+exclude = [
+  "externals",
+]
 pager = {{ $diff_pager | quote }}
+scriptContents = false
 
 [edit]
 args = ["--wait"]

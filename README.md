@@ -14,3 +14,13 @@ chezmoi init ITProKyle
 
 Once completed, you may need to logout then back in for all changes to take effect as some things are setup in [`.zprofile`](./src/dot_zprofile).
 This will always be the case for new initializations but only some updates.
+
+## [`install.sh`](./install.sh)
+
+The [`install.sh`](./install.sh) script can be used to setup Codespaces, devcontainers, or Linux systems.
+
+### Linux
+
+```console
+bash -c "$(curl -s https://raw.githubusercontent.com/ITProKyle/dotfiles/master/install.sh)"
+```
