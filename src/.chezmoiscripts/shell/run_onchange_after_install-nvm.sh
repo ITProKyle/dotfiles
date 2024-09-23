@@ -4,7 +4,7 @@ if command -v brew >/dev/null; then
   eval "$(/opt/homebrew/bin/brew shellenv)";
   __USE_BREW="true";
 else
-  __USER_BREW="false";
+  __USE_BREW="false";
 fi
 
 __NVM_DIR="${HOME}/.nvm";
@@ -15,7 +15,7 @@ fi
 
 function install::nvm {
   if [[ ! -d "${__NVM_DIR}" ]]; then
-    if [[ "${__USER_BREW}" == "true" ]]; then
+    if [[ "${__USE_BREW}" == "true" ]]; then
       brew install nvm;
     elif command -v curl >/dev/null; then
       curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash;
