@@ -1,4 +1,5 @@
 #! /usr/bin/env oi
+# shellcheck disable=SC2086
 
 function post-install::bat {
   # Perform post-install steps for: bat
@@ -14,31 +15,48 @@ function post-install::bat {
   fi
 }
 
-function install::packages.apt {
-  # Install packages using: apt
+
+function install::packages.apt.repositories {
+  # Add apt repositories that are not added by default.
+
   local _sudo=${1};
 
-  # shellcheck disable=SC2086
-  ${_sudo}apt-get update -y;
+  ${_sudo}apt-get update -y >/dev/null;
 
-  # base set of packages
-  # shellcheck disable=SC2086
+  # contains "add-apt-repository" to simplify adding repositories
+  ${_sudo}apt-get install -y software-properties-common;
+
+  oi::log.info "adding apt repositories...";
+  ${_sudo}add-apt-repository --no-update --yes ppa:aos1/diff-so-fancy;
+  oi::log.success "all apt repositories have been added!";
+}
+
+function install::packages.apt {
+  # Install packages using: apt
+
+  local _sudo=${1};
+
+  install::packages.apt.repositories "${_sudo}";
+
+  ${_sudo}apt-get update -y >/dev/null;
+
+  oi::log.info "installing initial set of packages..."
   ${_sudo}apt-get install -y \
     bat \
     build-essential \
     ca-certificates \
     curl \
+    diff-so-fancy \
     direnv \
     git \
     net-tools \
     zsh \
-    zsh-syntax-highlighting
+    zsh-syntax-highlighting;
 
   post-install::bat;
 
-  # packages required for pyenv
+  oi::log.info "installing packages required by pyenv...";
   # cspell:ignore libbz2
-  # shellcheck disable=SC2086
   ${_sudo}apt-get install -y \
     ccache \
     llvm \
@@ -54,7 +72,7 @@ function install::packages.apt {
     xz-utils \
     zlib1g-dev \
     libxml2-dev \
-    libxmlsec1-dev
+    libxmlsec1-dev;
 }
 
 function install::packages {
@@ -63,11 +81,13 @@ function install::packages {
 
   if command -v sudo >/dev/null; then _sudo="sudo "; else _sudo=""; fi
 
-  if command -v curl >/dev/null; then
+  if command -v apt-get >/dev/null; then
     oi::log.notice "using apt to install system packages...";
     install::packages.apt "${_sudo}";
   else
     oi::log.error "unable to determine package manager!";
     oi::log.error "system packages will not be installed";
   fi
+
+  oi::log.success "finished installing packages!";
 };
