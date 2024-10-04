@@ -1,6 +1,7 @@
 # Docs available at https://git-scm.com/docs/git-config#Documentation/git-config.txt
 
 [alias]
+	dsf = diff --color
 	hash = "rev-parse --short=8 HEAD"
 	krak = !open "gitkraken://repo$(cd "${GIT_PREFIX:-.}/${1:-.}" && git rev-parse --show-toplevel); :"
 	reset-perm = "!git diff -p --no-ext-diff --no-color --diff-filter d  | grep -E \"^(diff|old mode|new mode)\" | sed -e \"s/^old/NEW/;s/^new/old/;s/^NEW/new/\" | git apply"
@@ -26,6 +27,8 @@
 	format = man
 [init]
 	defaultBranch = master
+[pager]
+	dsf = diff-so-fancy | less --tabs=4 -RFXS --pattern '^(Date|added|deleted|modified): '
 [push]
 	default = current
 [rebase]
