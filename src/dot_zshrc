@@ -41,7 +41,8 @@ plugins=(
   nmap
   npm
   poetry
-  zsh-autosuggestions  # https://github.com/zsh-users/zsh-autosuggestions
+  zsh-autosuggestions  # https://github.com/zsh-users/zsh-autosuggestions; installed with chezmoiexternal.toml
+  zsh-syntax-highlighting  # https://github.com/zsh-users/zsh-syntax-highlighting; installed with chezmoiexternal.toml
 )
 
 # shellcheck disable=SC1091
@@ -96,23 +97,10 @@ function lk {
   cd "$(walk --icons "$@")" || return;
 }
 
-# https://github.com/zsh-users/zsh-syntax-highlighting
-if [[ -n "${HOMEBREW_PREFIX}" ]]; then
-  # shellcheck disable=SC1091
-  source "${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" || true;
-else
-  # path for most Linux distributions (except perhaps NixOS)
-  # shellcheck disable=SC1091
-  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh || true;
-fi
-
 if ! command -v atuin >/dev/null 2>&1; then
   PATH="${PATH}:${HOME}/.atuin/bin";
 fi
 # https://docs.atuin.sh/guide/installation/
 eval "$(atuin init zsh)" || echo "atuin not installed. install it to sync history.";
-
-# shellcheck disable=SC1091
-source "${HOME}/.docker/init-zsh.sh" || true; # Added by Docker Desktop
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh;
