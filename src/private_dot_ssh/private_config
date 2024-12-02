@@ -68,7 +68,7 @@ Host tpi2-node3
 Host homeassistant.local
   HostName 10.0.0.35
   RemoteForward 48969 127.0.0.1:48969
-  User kyle
+  User root
   IdentityFile ~/.ssh/kyle.finley
 
 # UDM-PRO
