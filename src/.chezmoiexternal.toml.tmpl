@@ -12,6 +12,13 @@ type = "archive-file"
 url = "{{ $github }}/{{ $ageRepo }}/releases/download/v{{ $ageVersion }}/age-v{{ $ageVersion }}-{{ .chezmoi.os }}-{{ .chezmoi.arch }}.tar.gz"
 path = "age/age"
 
+[".local/lib/oi"]
+type = "archive"
+{{- $oiRepo := "finleyfamily/oi" -}}
+{{ $oiVersion := includeTemplate "get-github-latest-version" (list $oiRepo $cache) }}
+url = "{{ $github }}/{{ $oiRepo }}/releases/download/v{{ $oiVersion }}/oi-v{{ $oiVersion }}.tar.gz"
+stripComponents = 2
+
 ["{{ .dirs.omzsh }}"]
 type = "archive"
 {{- $ohMyZshRepo := "ohmyzsh/ohmyzsh" -}}

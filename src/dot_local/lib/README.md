@@ -1,3 +1,0 @@
-# lib
-
-Bash/ZSH libraries.

@@ -28,7 +28,7 @@ function __finley.help.list_cmds {
 function __finley.help {
   cat << HEREDOC
 
-  Install poetry.
+  Custom shell commands by Kyle Finley.
 
   Usage: ${SCRIPT_NAME} [OPTIONS]
 
