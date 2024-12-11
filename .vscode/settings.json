@@ -1,3 +1,6 @@
 {
-    "cSpell.enabled": true
+    "cSpell.enabled": true,
+    "files.associations": {
+        "**/src/dot_local/bin/executable_*": "shellscript"
+    }
 }
