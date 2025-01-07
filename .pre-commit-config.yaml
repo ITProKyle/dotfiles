@@ -48,7 +48,7 @@ repos:
             src/dot_config/private_atuin/private_config\.toml
           )
   - repo: https://github.com/ITProKyle/pre-commit-hook-yamlfmt
-    rev: v0.3.0
+    rev: v0.3.1
     hooks:
       - id: yamlfmt
         args: [--mapping, '2', --offset, '2', --sequence, '4']
