@@ -33,7 +33,10 @@ function __finley::install.poetry {
   if [[ -z "$(command -v poetry)" ]]; then
     oi::log.notice "poetry not found! installing it now...";
     "${__PYTHON_EXE}" -m pipx install poetry;
-    "${__PYTHON_EXE}" -m pipx inject poetry "poetry-dynamic-versioning[plugin]" poetry-plugin-export --force;
+    "${__PYTHON_EXE}" -m pipx inject poetry \
+      "poetry-dynamic-versioning[plugin]" \
+      poetry-plugin-export \
+      poetry-plugin-shell --force;
     oi::log.success "poetry has been successfully installed!";
 
     if [[ -z "$(command -v poetry)" ]]; then
