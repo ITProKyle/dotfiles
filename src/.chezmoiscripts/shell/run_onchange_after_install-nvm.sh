@@ -23,7 +23,7 @@ function install::nvm {
       wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash;
     else
       oi::log.error "To install atuin, you must have homebrew, curl, or wget installed.";
-      oi::exit.nok;
+      oi::exit.error;
     fi
   fi
 }
