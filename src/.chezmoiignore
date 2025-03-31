@@ -1,5 +1,5 @@
-# macOS only files
 {{ if ne .chezmoi.os "darwin" }}
+# macOS only files
 .Brewfile
 .chezmoiscripts/darwin/**
 .config/duti/**
@@ -9,13 +9,14 @@
 .zshrc.d/010-iterm2.sh
 {{ end }}
 
-# Linux only files
 {{ if ne .chezmoi.os "linux" }}
+# Linux only files
 .chezmoiscripts/linux/**
+src/dot_local/bin/executable_finley::upgrade.gitkraken
 {{ end }}
 
-# Linux & macOS files
 {{ if (and (ne .chezmoi.os "darwin") (ne .chezmoi.os "linux")) }}
+# Linux & macOS files
 **/*.zwc
 .chezmoiscripts/shell/**
 .local/**
@@ -24,6 +25,6 @@
 .zshrc.d/**
 {{ end }}
 
-# Windows only files
 {{ if ne .chezmoi.os "windows" }}
+# Windows only files
 {{ end }}

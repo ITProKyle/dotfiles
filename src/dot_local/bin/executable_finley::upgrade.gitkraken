@@ -1,0 +1,99 @@
+#! /usr/bin/env oi
+# shellcheck shell=bash
+
+IS_ZSH="false";
+
+if [[ "${SHELL}" == *"zsh" ]]; then
+  IS_ZSH="true";
+fi
+
+if oi::var.true "${IS_ZSH}"; then
+  # shellcheck disable=SC2296
+  SCRIPT_PATH="${(%):-%x}";  # special zsh syntax
+else
+  SCRIPT_PATH="$(realpath "$0")";  # bash syntax - '-s' perserves symlinks
+fi
+SCRIPT_NAME=$(basename "$SCRIPT_PATH")
+
+EXIT_CODE=0;
+ERRORS=();
+
+function __finley::upgrade.gitkraken.help {
+  cat << HEREDOC
+
+  Upgrade GitKraken (Ubuntu only).
+
+  NOTE: New "GitKraken-v*.deb" file must have already been downloaded.
+
+  Usage: ${SCRIPT_NAME} [--help]
+
+  Arguments:
+      -h, --help           show this help message and exit.
+
+HEREDOC
+}
+
+function __finley::upgrade.gitkraken {
+  local PS3 deb_files file reopen;
+
+  if oi::var.true "${IS_ZSH}"; then
+    # shellcheck disable=SC2296
+    deb_files=("${(@f)$(find "${HOME}/Downloads" -maxdepth 1 -type f -name 'GitKraken-v*.deb')}");
+  else
+    readarray -d '' deb_files < <(find "${HOME}/Downloads" -maxdepth 1 -type f -name 'GitKraken-v*.deb' -print0)
+  fi
+
+  if [[ ${#deb_files[@]} -eq 0 ]]; then
+    ERRORS+=("No files found to upgrade GitKraken");
+    EXIT_CODE=1;
+    return;
+  fi
+
+  PS3="Select a file: "
+  select file in "${deb_files[@]}"; do
+    if [[ -n "${file}" ]]; then
+      reopen="false";
+      oi::log.info "Upgrading GitKraken using '$(basename "${file}")'";
+
+      if pgrep "gitkraken" >/dev/null 2>&1; then
+        oi::log.info "Closing GitKraken..."
+        pkill "gitkraken";  # cspell:words pkill
+        reopen="true";
+      fi
+
+      sudo apt-get install -y "${file}";
+
+      if oi::var.true "${reopen}"; then
+        oi::log.info "Reopening GitKraken..."
+        gitkraken;
+      fi
+      break;
+    else
+      oi::log.warning "Invalid selection. Please try again.";
+    fi
+  done
+}
+
+
+while [[ "${1:-}" != "" ]]; do
+  case $1 in
+    --help | -h)
+      __finley::upgrade.gitkraken.help; oi::exit.ok "nothing to do";
+      ;;
+    *)
+      ERRORS+=("Unrecognized argument: $1");
+      EXIT_CODE=1;
+      shift;
+      ;;
+  esac
+done
+
+if [[ ${EXIT_CODE} -gt 0 ]]; then
+  oi::log.fatal "${SCRIPT_NAME}: Fatal error(s) detected:";
+  for error_text in "${ERRORS[@]}"; do
+    oi::log.fatal "   ${error_text}";
+  done
+  oi::exit.error;
+fi
+
+__finley::upgrade.gitkraken;

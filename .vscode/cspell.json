@@ -9,13 +9,13 @@
     "maxNumberOfProblems": 100,
     "version": "0.2",
     "words": [
-        "RFXS",
         "ccache",
         "clmv",
         "direnvrc",
         "glyv",
         "icnv",
         "libncurses",
+        "libpcsclite",
         "lsregister",
         "ltcl",
         "mattmc",
@@ -23,6 +23,8 @@
         "mroth",
         "Nlsv",
         "pyenvs",
+        "pyscard",
+        "RFXS",
         "tmpl"
     ]
 }

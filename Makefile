@@ -21,7 +21,7 @@ exe: ## make files executable
 
 fix: run-pre-commit ## run all automatic fixes
 
-fix-md: ## automatically fix markdown format errors
+fix.md: ## automatically fix markdown format errors
 	@poetry run pre-commit run mdformat --all-files
 
 home: ## equivalent to "chezmoi apply"
@@ -30,23 +30,24 @@ home: ## equivalent to "chezmoi apply"
 lint: ## run all linters
 	@echo "no linters configured for this project"
 
-lint-shellcheck: ## runs shellcheck using act
-	@act --job shellcheck
+# install act: gh extension install https://github.com/nektos/gh-act
+lint.shellcheck: ## runs shellcheck using act
+	@gh act --job shellcheck
 
-run-pre-commit: ## run pre-commit for all files
+run.pre-commit: ## run pre-commit for all files
 	@poetry run pre-commit run $(PRE_COMMIT_OPTS) \
 		--all-files \
 		--color always
 
-setup: setup-poetry setup-pre-commit setup-npm ## setup dev environment
+setup: setup.poetry setup.pre-commit setup.npm ## setup dev environment
 
-setup-npm: ## install node dependencies with npm
+setup.npm: ## install node dependencies with npm
 	@npm ci
 
-setup-poetry: ## setup python virtual environment
+setup.poetry: ## setup python virtual environment
 	@poetry sync $(POETRY_OPTS)
 
-setup-pre-commit: ## install pre-commit git hooks
+setup.pre-commit: ## install pre-commit git hooks
 	@poetry run pre-commit install
 
 spellcheck: ## run cspell
