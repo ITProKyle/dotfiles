@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+#
+# Functionality of macOS `pbpaste` but for other systems!
+#
+
+powershell.exe Get-Clipboard | sed 's/\r$//' | sed -z '$ s/\n$//';
+exit 0;

@@ -28,3 +28,9 @@ src/dot_local/bin/executable_finley::upgrade.gitkraken
 {{ if ne .chezmoi.os "windows" }}
 # Windows only files
 {{ end }}
+
+{{ if ne .sys.is_wsl true }}
+# WSL 2 only files
+.local/bin/pbcopy
+.local/bin/pbpaste
+{{ end }}

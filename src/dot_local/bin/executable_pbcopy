@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+#
+# Functionality of macOS `pbcopy` but for other systems!
+#
+
+tee <&0 | clip.exe;
+exit 0;
