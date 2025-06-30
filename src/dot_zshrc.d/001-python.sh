@@ -67,13 +67,17 @@ function restore-poetry {
 function py-install {
   # Faster 'pyenv install' using a faster profile task.
   # Uninstalls before trying to install.
+  #
+  local options;
 
-  # TODO add '--disable-test-modules' for >= 3.10 - https://docs.python.org/3/using/configure.html#install-options
+  if [[ $(version-to-int $1) -ge $(version-to-int '3.10.0') ]]; then
+    options="--disable-test-modules";  # https://docs.python.org/3/using/configure.html#install-options
+  fi
 
   # shellcheck disable=SC2068
   pyenv uninstall $@;
   # shellcheck disable=SC2068
-  PROFILE_TASK='-m test.regrtest --pgo -j0' pyenv install $@;
+  PROFILE_TASK='-m test.regrtest --pgo -j0' PYTHON_CONFIGURE_OPTS="${PYTHON_CONFIGURE_OPTS} ${options}" pyenv install $@;
 }
 
 function uninstall-poetry {
