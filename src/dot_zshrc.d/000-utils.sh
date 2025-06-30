@@ -17,3 +17,20 @@ function pem {
   cd "${HOME}/pem"
   tree
 }
+
+function version-to-int {
+  # Converts a SemVer version string into an integer for comparison.
+  #
+  # Currently supports up to 4 version parts of 3 digits each.
+  #
+  # Usage:
+  #
+  #   if [[ $(version $1) >= $(version $2) ]]; then
+  #     echo "...";
+  #   fi;
+  #
+
+  # TODO: add check to ensure version schema
+
+  echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }';
+};
