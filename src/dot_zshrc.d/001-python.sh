@@ -70,7 +70,7 @@ function py-install {
   #
   local options;
 
-  if [[ $(version-to-int $1) -ge $(version-to-int '3.10.0') ]]; then
+  if [[ $(version-to-int "$1") -ge $(version-to-int '3.10.0') ]]; then
     options="--disable-test-modules";  # https://docs.python.org/3/using/configure.html#install-options
   fi
 
