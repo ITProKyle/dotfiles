@@ -9,7 +9,7 @@ function install::pyenv {
     elif command -v wget >/dev/null; then
       wget -qO- https://pyenv.run| bash;
     else
-      echo "To install atuin, you must have curl or wget installed.";
+      echo "To install pyenv, you must have curl or wget installed.";
       exit 1;
     fi
   fi
