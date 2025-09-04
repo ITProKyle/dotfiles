@@ -98,7 +98,12 @@ function lk {
 }
 
 if ! command -v atuin >/dev/null 2>&1; then
-  PATH="${PATH}:${HOME}/.atuin/bin";
+  if [[ -f "${HOME}/.atuin/bin/env" ]]; then
+    # Load atuin if installed via their install script.
+    # If not present, this is appended by the install script.
+    # shellcheck disable=SC1091
+    . "$HOME/.atuin/bin/env";
+  fi
 fi
 # https://docs.atuin.sh/guide/installation/
 eval "$(atuin init zsh)" || echo "atuin not installed. install it to sync history.";
