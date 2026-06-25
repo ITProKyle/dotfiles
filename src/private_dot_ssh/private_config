@@ -74,6 +74,12 @@ Host 10.0.0.1
   HostkeyAlgorithms +ssh-rsa
   PubkeyAcceptedAlgorithms +ssh-rsa
 
+Host BLADE UBNT-BLADE UBNT-BLADE.internal
+  HostName 10.0.0.142
+  RemoteForward 48969 127.0.0.1:48969
+  User kyle
+  IdentityFile ~/.ssh/kyle.finley
+
 ###################################
 # Keep the default configuration  #
 #  as the last item in this file. #

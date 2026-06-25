@@ -25,6 +25,7 @@
         "pyenvs",
         "pyscard",
         "RFXS",
-        "tmpl"
+        "tmpl",
+        "UBNT"
     ]
 }
