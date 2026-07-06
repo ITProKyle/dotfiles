@@ -5,13 +5,6 @@ tap "homebrew/bundle"
 tap "knqyf263/pet"
 tap "lindell/multi-gitter"
 tap "ynqa/tap"
-{{ if eq .workstation_use "work" -}}
-tap "cpe/tools", "git@gitlab-ssh.apex-tools.prod0.prod.aws.swacorp.com:cpe/homebrew-cpe-tools.git"
-# command line interface for the ec account registry
-brew "cpe/tools/account"
-# SWA AWS Credential Command-Line Tool
-brew "cpe/tools/awssaml"
-{{- end }}
 # General-purpose data compression with high compression ratio
 brew "xz"
 # Image format providing lossless and lossy compression for web images
