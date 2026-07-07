@@ -73,10 +73,11 @@ type = "archive"
 url = "{{ $github }}/{{ $zshrcdRepo }}/archive/{{ $zshrcdRevision }}.tar.gz"
 exact = true
 stripComponents = 1
-{{- end -}}
 
 {{- $nerdFontsRepo := "ryanoasis/nerd-fonts" -}}
 {{ $nerdFontsVersion := includeTemplate "get-github-latest-version" (list $nerdFontsRepo $cache) }}
 ["{{ joinPath .dirs.fonts .terminal.font.fileName }}"]
 type = "file"
 url = "https://raw.githubusercontent.com/{{ $nerdFontsRepo }}/v{{ $nerdFontsVersion }}/patched-fonts/FiraCode/Regular/{{ .terminal.font.fileName }}"
+
+{{- end -}}{{- /* end of windows exclude */ -}}
