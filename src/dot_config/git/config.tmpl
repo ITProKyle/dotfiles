@@ -22,7 +22,7 @@
 	pruneTags = false
 	output = full  # compact or full
 [gpg]
-	program = {{ .software.gpg.program }}
+	program = {{ .software.gpg.program | quote }}
 [help]
 	format = man
 [init]
