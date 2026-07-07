@@ -91,7 +91,7 @@ is_pi = {{ $is_pi }}
 is_ubuntu = {{ $ubuntu }}
 is_wsl = {{ $wsl }}
 os_id = {{ $osID | quote }}
-uname_arch = {{ output "uname" "-m" | trim | quote }}
+uname_arch = {{ if lookPath "uname" }}{{ output "uname" "-m" | trim | quote }}{{ else }}""{{ end }}
 
 [diff]
 exclude = [
